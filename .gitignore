@@ -1,6 +1,7 @@
-build/
+**/build/
 cmake-build-debug/
 .idea/
+**.code-workspace
 Brewfile.lock.json
 examples/umfeld-application-bundle/libs/
 cmake-build-debug-event-trace
