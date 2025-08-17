@@ -1,10 +1,9 @@
 #include "Umfeld.h"
-#include "Geometry.h"
 
 using namespace umfeld;
 
 int   stroke_join_mode = MITER;
-int   stroke_cap_mode  = ROUND;
+int   stroke_cap_mode  = SQUARE;
 float stroke_weight    = 30;
 bool  close_shape      = false;
 
@@ -13,6 +12,7 @@ PImage* point_image;
 
 void settings() {
     size(1024, 768);
+    render_to_buffer = true;
 }
 
 void setup() {
@@ -20,7 +20,7 @@ void setup() {
     strokeCap(stroke_cap_mode);
     strokeWeight(stroke_weight);
 
-    hint(ENABLE_SMOOTH_LINES);
+    // hint(ENABLE_SMOOTH_LINES);
     g->stroke_properties(radians(10), radians(10), 179);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
 
@@ -33,6 +33,8 @@ void setup() {
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+
+    hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
 
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
     pointSize(32);
@@ -100,14 +102,43 @@ void draw() {
     {
         TRACE_SCOPE_N("LINE");
         noFill();
-        stroke(1.0f, 0.25f, 0.35f);
-        line(width / 2.0f - 30, height / 2 - 100, width / 2.0f + 30, height / 2 - 40);
+        stroke(1.0f, 0.25f, 0.35f, 0.5f);
+        line(width / 2.0f - 30, height / 2 - 100,
+             width / 2.0f + 30, height / 2 - 40);
+        stroke(1.0f, 0.25f, 0.35f, 0.5f);
+        beginShape(LINES);
+        vertex(mouseX, mouseY);
+        vertex(width / 2.0f + 30, height / 2 - 100);
+        endShape();
     }
     {
         TRACE_SCOPE_N("IMAGE");
         fill(1);
         noStroke();
-        image(umfeld_image, mouseX, mouseY);
+        pushMatrix();
+        translate(mouseX, mouseY);
+        rotate(frameCount * 0.0137f);
+        translate(umfeld_image->width / -4, umfeld_image->height / -4);
+        image(umfeld_image, 0, 0, umfeld_image->width / 2, umfeld_image->height / 2);
+        popMatrix();
+    }
+    {
+        // flush();
+
+        TRACE_SCOPE_N("LIGHT_SHAPES");
+        lights();
+
+        pushMatrix();
+        translate(width / 2 - 120, height / 2, 0);
+        sphere(120);
+        popMatrix();
+
+        pushMatrix();
+        translate(width / 2 + 120, height / 2, 0);
+        sphere(120);
+        popMatrix();
+
+        noLights();
     }
     {
         TRACE_SCOPE_N("FLUSH");
