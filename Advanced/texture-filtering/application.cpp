@@ -3,13 +3,19 @@
 using namespace umfeld;
 
 PImage* umfeld_image;
+PImage* umfeld_image_pixelated;
 
 void settings() {
     size(1024, 768);
 }
 
 void setup() {
-    umfeld_image = loadImage("umfeld-logotype-64.png");
+    umfeld_image           = loadImage("umfeld-logotype-64.png");
+    umfeld_image_pixelated = new PImage(*umfeld_image);
+
+    umfeld_image->set_texture_filter(LINEAR);            // set to LINEAR for smooth texture filtering
+    umfeld_image_pixelated->set_texture_filter(NEAREST); // set to NEAREST for pixelated effect
+
     rectMode(CENTER);
     noStroke();
 }
@@ -23,10 +29,8 @@ void draw() {
     fill(1.0f);
     image(umfeld_image, mouseX - 256, mouseY, 512, 512);
 
-    texture(umfeld_image);                // set texture to the loaded image
-    texture_filter(NEAREST);              // set to NEAREST for pixelated effect
+    texture(umfeld_image_pixelated);      // set texture to copy of loaded image
     rect(mouseX + 256, mouseY, 512, 512); // draw rectangle with texture
-    texture_filter(LINEAR);               // reset to LINEAR for smooth texture filtering
     texture();                            // reset texture to default
 }
 

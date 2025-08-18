@@ -12,61 +12,65 @@
 using namespace umfeld;
 
 ShaderSource shader_source_barycentric_wireframe{
-    .vertex   = R"(#version 330 core
+    .vertex   = R"(
+layout(location = 0) in vec4 aPosition;
+layout(location = 1) in vec4 aNormal;
+layout(location = 2) in vec4 aColor;
+layout(location = 3) in vec2 aTexCoord;
+layout(location = 4) in uint aTransformID;
 
-                layout(location = 0) in vec4 aPosition;
-                layout(location = 1) in vec4 aNormal;
-                layout(location = 2) in vec4 aColor;
-                layout(location = 3) in vec2 aTexCoord;
+layout(std140) uniform Transforms {
+    mat4 uModel[256];
+};
 
-                out vec4 vColor;
-                out vec2 vTexCoord;
-                out vec3 vBarycentric;
+out vec4 vColor;
+out vec2 vTexCoord;
+out vec3 vBarycentric;
 
-                uniform mat4 uProjection;
-                uniform mat4 uViewMatrix;
-                uniform mat4 uModelMatrix;
+uniform mat4 uProjection;
+uniform mat4 uViewMatrix;
+uniform mat4 uViewProj;
 
-                void main() {
-                    gl_Position = uProjection * uViewMatrix * uModelMatrix * aPosition;
-                    vColor = aColor;
-                    vTexCoord = aTexCoord;
-                    vBarycentric = aNormal.xyz;
-                }
+void main() {
+    mat4 model_matrix = uModel[aTransformID];
+    gl_Position = uProjection * uViewMatrix * model_matrix * aPosition;
+    vColor = aColor;
+    vTexCoord = aTexCoord;
+    vBarycentric = aNormal.xyz;
+}
     )",
-    .fragment = R"(#version 330 core
+    .fragment = R"(
+in vec4 vColor;
+in vec2 vTexCoord;
+in vec3 vBarycentric;
 
-                in vec4 vColor;
-                in vec2 vTexCoord;
-                in vec3 vBarycentric;
+out vec4 FragColor;
 
-                out vec4 FragColor;
+uniform float line_width;
+uniform float feather_width;
 
-                uniform float line_width;
-                uniform float feather_width;
+uniform sampler2D uTexture;
 
-                uniform sampler2D uTexture;
+float edgefactor(vec3 bary, float width) {
+    vec3 d = fwidth(bary);
+    vec3 a3 = smoothstep(d * (width - 0.5), d * (width + 0.5), bary);
+    return 1.0 - min(min(a3.x, a3.y), a3.z);
+}
 
-                float edgefactor(vec3 bary, float width) {
-                    vec3 d = fwidth(bary);
-                    vec3 a3 = smoothstep(d * (width - 0.5), d * (width + 0.5), bary);
-                    return 1.0 - min(min(a3.x, a3.y), a3.z);
-                }
+float edgefactor_feather(vec3 bary, float width, float feather) {
+    float w1 = width - feather * 0.5;
+    vec3 d = fwidth(bary);
+    vec3 a3 = smoothstep(d * w1, d * (w1 + feather), bary);
+    return 1.0 - min(min(a3.x, a3.y), a3.z);
+}
 
-                float edgefactor_feather(vec3 bary, float width, float feather) {
-                    float w1 = width - feather * 0.5;
-                    vec3 d = fwidth(bary);
-                    vec3 a3 = smoothstep(d * w1, d * (w1 + feather), bary);
-                    return 1.0 - min(min(a3.x, a3.y), a3.z);
-                }
-
-                void main() {
-                    float alpha = edgefactor(vBarycentric, line_width);
-                    //float alpha = edgefactor_feather(vBarycentric, line_width, feather_width);
-                    alpha = clamp(alpha, 0.0, 1.0);
-                    FragColor = texture(uTexture, vTexCoord) * vec4(vColor.rgb, vColor.a * alpha);
-                    //FragColor = vec4(vColor.rgb, vColor.a * alpha);
-                }
+void main() {
+    float alpha = edgefactor(vBarycentric, line_width);
+    //float alpha = edgefactor_feather(vBarycentric, line_width, feather_width);
+    alpha = clamp(alpha, 0.0, 1.0);
+    FragColor = texture(uTexture, vTexCoord) * vec4(vColor.rgb, vColor.a * alpha);
+    //FragColor = vec4(vColor.rgb, vColor.a * alpha);
+}
     )"};
 
 PShader*      shader_barycentric_wireframe;
@@ -81,7 +85,7 @@ void settings() {
 }
 
 void setup() {
-    shader_barycentric_wireframe = loadShader(shader_source_barycentric_wireframe.vertex, shader_source_barycentric_wireframe.fragment);
+    shader_barycentric_wireframe = loadShader(shader_source_barycentric_wireframe.get_vertex_source(), shader_source_barycentric_wireframe.get_fragment_source());
 
     /* use convenience function to generate a sphere */
     std::vector<Vertex> sphere_vertices;
@@ -133,14 +137,14 @@ void draw() {
     /* matrices need to be set every frame for the transforms to work */
     shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_VIEW_MATRIX, g->view_matrix);
     shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_PROJECTION_MATRIX, g->projection_matrix);
-    shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
+    // shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
     mesh(mesh_sphere);
 
     pushMatrix();
     translate(height / 3.0f, 0);
     scale(0.5f);
     /* before drawing the mesh the model matrix needs to be sent to the shader */
-    shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
+    // shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
     // mesh(mesh_sphere);
     popMatrix();
 
@@ -148,7 +152,7 @@ void draw() {
     translate(0, 100);
     scale(2.0f);
     /* before drawing the mesh the model matrix needs to be sent to the shader */
-    shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
+    // shader_barycentric_wireframe->set_uniform(SHADER_UNIFORM_MODEL_MATRIX, g->model_matrix);
     // mesh(mesh_sphere);
     popMatrix();
 
