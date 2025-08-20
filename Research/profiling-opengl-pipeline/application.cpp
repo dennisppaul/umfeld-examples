@@ -1,4 +1,5 @@
 #include "Umfeld.h"
+#include "VertexBuffer.h"
 
 using namespace umfeld;
 
@@ -7,8 +8,9 @@ int   stroke_cap_mode  = SQUARE;
 float stroke_weight    = 30;
 bool  close_shape      = false;
 
-PImage* umfeld_image;
-PImage* point_image;
+PImage*       umfeld_image;
+PImage*       point_image;
+VertexBuffer* mesh_shape;
 
 void settings() {
     size(1024, 768);
@@ -38,6 +40,10 @@ void setup() {
 
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
     pointSize(32);
+
+    const std::vector<Vertex> vertices = loadOBJ("Panda.obj");
+    mesh_shape                         = new VertexBuffer();
+    mesh_shape->add_vertices(vertices);
 }
 
 void draw() {
@@ -45,7 +51,7 @@ void draw() {
     background(0.85f);
 
     fill(0);
-    debug_text("FPS: " + std::to_string(frameRate), 10, 20);
+    debug_text("FPS: " + nf(frameRate, 1), 10, 20);
 
     {
         TRACE_SCOPE_N("CIRCLE_STROKE_FILL");
@@ -139,6 +145,36 @@ void draw() {
         popMatrix();
 
         noLights();
+    }
+    {
+        TRACE_SCOPE_N("MESH");
+        pushMatrix();
+
+        translate(width * 0.5f, height * 0.75f);
+        rotateX(PI);
+        rotateY(PI);
+        rotateX(sin(frameCount * 0.07f) * 0.07f);
+        rotateY(sin(frameCount * 0.1f) * 0.1f);
+        rotateZ(sin(frameCount * 0.083f) * 0.083f);
+        scale(75);
+
+        mesh(mesh_shape);
+
+        pushMatrix();
+        translate(2, 0);
+        scale(0.4);
+        rotateY(-0.7);
+        mesh(mesh_shape);
+        popMatrix();
+
+        noStroke();
+        fill(0.5f, 0.85f, 1.0f);
+        pushMatrix();
+        rotateX(HALF_PI);
+        square(-3, -3, 6);
+        popMatrix();
+
+        popMatrix();
     }
     {
         TRACE_SCOPE_N("FLUSH");

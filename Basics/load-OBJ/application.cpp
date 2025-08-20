@@ -37,6 +37,7 @@ void draw() {
     debug_text("VERTICES: " + nf(number_vertices, 1), 10, 25);
 
     pushMatrix();
+
     translate(width * 0.5f, height * 0.75f);
     rotateX(PI);
     rotateY(PI);
@@ -74,7 +75,7 @@ void draw() {
 }
 
 void mousePressed() {
-#ifndef SYSTEM_WINDOWS
+#ifdef SYSTEM_MACOS
     popen("say -v \"Anna\" \"EI CAN DANCE!\"", "r");
 #endif
 }
