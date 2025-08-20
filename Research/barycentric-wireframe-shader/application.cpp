@@ -28,12 +28,12 @@ out vec2 vTexCoord;
 out vec3 vBarycentric;
 
 uniform mat4 uProjection;
-uniform mat4 uViewMatrix;
-uniform mat4 uViewProj;
+uniform mat4 uViewMatrixMatrix;
+uniform mat4 uViewProjectionMatrix;
 
 void main() {
     mat4 model_matrix = uModel[aTransformID];
-    gl_Position = uProjection * uViewMatrix * model_matrix * aPosition;
+    gl_Position = uProjection * uViewMatrixMatrix * model_matrix * aPosition;
     vColor = aColor;
     vTexCoord = aTexCoord;
     vBarycentric = aNormal.xyz;

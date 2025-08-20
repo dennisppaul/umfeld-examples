@@ -32,9 +32,9 @@ void setup() {
     // TODO explain and test `render modes` ( default: `RENDER_MODE_SORTED_BY_Z_ORDER` or `RENDER_MODE_SORTED_BY_SUBMISSION_ORDER` )
     //      set_render_mode()
     //      hint(DISABLE_DEPTH_TEST); // add this as a reasonable default
+    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
-    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
 
     hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
 
@@ -49,10 +49,11 @@ void setup() {
 void draw() {
     TRACE_FRAME;
     background(0.85f);
-
-    fill(0);
-    debug_text("FPS: " + nf(frameRate, 1), 10, 20);
-
+    {
+        TRACE_SCOPE_N("DEBUG_TEXT");
+        fill(0);
+        debug_text("FPS: " + nf(frameRate, 1), 10, 20);
+    }
     {
         TRACE_SCOPE_N("CIRCLE_STROKE_FILL");
         strokeWeight(15);
@@ -129,8 +130,6 @@ void draw() {
         popMatrix();
     }
     {
-        // flush();
-
         TRACE_SCOPE_N("LIGHT_SHAPES");
         lights();
 
@@ -174,6 +173,40 @@ void draw() {
         square(-3, -3, 6);
         popMatrix();
 
+        popMatrix();
+
+        if (isMousePressed) {
+            mesh_shape->set_shape(LINES);
+        } else {
+            mesh_shape->set_shape(TRIANGLES);
+        }
+
+        if (isKeyPressed) {
+            for (auto& v: mesh_shape->vertices_data()) {
+                v.position.x += random(-0.02, 0.02);
+                v.position.y += random(-0.02, 0.02);
+                v.position.z += random(-0.02, 0.02);
+            }
+            mesh_shape->update();
+        }
+    }
+    {
+        TRACE_SCOPE_N("TRANSPARENT_SHAPES");
+        pushMatrix();
+        translate(width * 0.5f, height * 0.75f);
+        rotateX((mouseY * 0.1f) * 0.07f);
+        rotateY((mouseX * 0.1f) * 0.1f);
+        noStroke();
+        // fill(1.0f, 0.25f, 0.35f, 0.5f);
+        translate(0, 0, -50);
+        fill(1.0f, 0.0f, 0.0f, 0.5f);
+        square(-100, -100, 200);
+        translate(0, 0, 50);
+        fill(0.0f, 1.0f, 0.0f, 0.5f);
+        square(-100, -100, 200);
+        translate(0, 0, 50);
+        fill(0.0f, 0.0f, 1.0f, 0.5f);
+        square(-100, -100, 200);
         popMatrix();
     }
     {
