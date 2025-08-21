@@ -32,11 +32,11 @@ void setup() {
     // TODO explain and test `render modes` ( default: `RENDER_MODE_SORTED_BY_Z_ORDER` or `RENDER_MODE_SORTED_BY_SUBMISSION_ORDER` )
     //      set_render_mode()
     //      hint(DISABLE_DEPTH_TEST); // add this as a reasonable default
-    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
 
-    hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
+    // hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
 
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
     pointSize(32);
@@ -49,12 +49,26 @@ void setup() {
 void draw() {
     TRACE_FRAME;
     background(0.85f);
-    {
+
+    constexpr bool ENABLE_DEBUG_TEXT         = true;
+    constexpr bool ENABLE_CIRCLE_STROKE_FILL = true;
+    constexpr bool ENABLE_CIRCLE_FILL        = true;
+    constexpr bool ENABLE_CIRCLE_STROKE      = true;
+    constexpr bool ENABLE_POLYGON            = true;
+    constexpr bool ENABLE_POINTS             = true;
+    constexpr bool ENABLE_LINE               = true;
+    constexpr bool ENABLE_IMAGE              = true;
+    constexpr bool ENABLE_LIGHT_SHAPES       = true;
+    constexpr bool ENABLE_MESH               = true;
+    constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
+    constexpr bool ENABLE_FINAL_FLUSH        = true;
+
+    if constexpr (ENABLE_DEBUG_TEXT) {
         TRACE_SCOPE_N("DEBUG_TEXT");
         fill(0);
         debug_text("FPS: " + nf(frameRate, 1), 10, 20);
     }
-    {
+    if constexpr (ENABLE_CIRCLE_STROKE_FILL) {
         TRACE_SCOPE_N("CIRCLE_STROKE_FILL");
         strokeWeight(15);
         stroke(0.0f);
@@ -62,14 +76,14 @@ void draw() {
         circle(width / 2.0f, height / 2, mouseY);
         strokeWeight(stroke_weight);
     }
-    {
+    if constexpr (ENABLE_CIRCLE_FILL) {
         TRACE_SCOPE_N("CIRCLE_FILL");
         noStroke();
         fill(0.5f, 0.85f, 1.0f);
         fill(0.85f);
         circle(width / 2.0f, height / 2, mouseY - 30);
     }
-    {
+    if constexpr (ENABLE_CIRCLE_STROKE) {
         TRACE_SCOPE_N("CIRCLE_STROKE");
         strokeWeight(15);
         stroke(0.0f);
@@ -77,7 +91,7 @@ void draw() {
         circle(width / 2.0f, height / 2, mouseY - 60);
         strokeWeight(stroke_weight);
     }
-    {
+    if constexpr (ENABLE_POLYGON) {
         TRACE_SCOPE_N("POLYGON");
         stroke(0.0f);
         fill(0.5f, 0.85f, 1.0f);
@@ -91,7 +105,7 @@ void draw() {
         vertex(312, 314);
         endShape(close_shape);
     }
-    {
+    if constexpr (ENABLE_POINTS) {
         TRACE_SCOPE_N("POINTS");
         stroke(0.0f);
         noFill();
@@ -106,7 +120,7 @@ void draw() {
         endShape();
         texture();
     }
-    {
+    if constexpr (ENABLE_LINE) {
         TRACE_SCOPE_N("LINE");
         noFill();
         stroke(1.0f, 0.25f, 0.35f, 0.5f);
@@ -118,37 +132,34 @@ void draw() {
         vertex(width / 2.0f + 30, height / 2 - 100);
         endShape();
     }
-    {
+    if constexpr (ENABLE_IMAGE) {
         TRACE_SCOPE_N("IMAGE");
-        fill(1);
+        fill(1, 0.5f);
         noStroke();
         pushMatrix();
-        translate(mouseX, mouseY);
+        translate(width / 2, height * 0.5, mouseY - height / 2);
         rotate(frameCount * 0.0137f);
         translate(umfeld_image->width / -4, umfeld_image->height / -4);
         image(umfeld_image, 0, 0, umfeld_image->width / 2, umfeld_image->height / 2);
         popMatrix();
     }
-    {
+    if constexpr (ENABLE_LIGHT_SHAPES) {
         TRACE_SCOPE_N("LIGHT_SHAPES");
         lights();
-
+        fill(1);
         pushMatrix();
         translate(width / 2 - 120, height / 2, 0);
         sphere(120);
         popMatrix();
-
         pushMatrix();
         translate(width / 2 + 120, height / 2, 0);
         sphere(120);
         popMatrix();
-
         noLights();
     }
-    {
+    if constexpr (ENABLE_MESH) {
         TRACE_SCOPE_N("MESH");
         pushMatrix();
-
         translate(width * 0.5f, height * 0.75f);
         rotateX(PI);
         rotateY(PI);
@@ -156,31 +167,25 @@ void draw() {
         rotateY(sin(frameCount * 0.1f) * 0.1f);
         rotateZ(sin(frameCount * 0.083f) * 0.083f);
         scale(75);
-
         mesh(mesh_shape);
-
         pushMatrix();
         translate(2, 0);
         scale(0.4);
         rotateY(-0.7);
         mesh(mesh_shape);
         popMatrix();
-
         noStroke();
         fill(0.5f, 0.85f, 1.0f);
         pushMatrix();
         rotateX(HALF_PI);
         square(-3, -3, 6);
         popMatrix();
-
         popMatrix();
-
         if (isMousePressed) {
             mesh_shape->set_shape(LINES);
         } else {
             mesh_shape->set_shape(TRIANGLES);
         }
-
         if (isKeyPressed) {
             for (auto& v: mesh_shape->vertices_data()) {
                 v.position.x += random(-0.02, 0.02);
@@ -190,26 +195,31 @@ void draw() {
             mesh_shape->update();
         }
     }
-    {
+    if constexpr (ENABLE_TRANSPARENT_SHAPES) {
         TRACE_SCOPE_N("TRANSPARENT_SHAPES");
         pushMatrix();
+
         translate(width * 0.5f, height * 0.75f);
         rotateX((mouseY * 0.1f) * 0.07f);
         rotateY((mouseX * 0.1f) * 0.1f);
         noStroke();
-        // fill(1.0f, 0.25f, 0.35f, 0.5f);
+
         translate(0, 0, -50);
         fill(1.0f, 0.0f, 0.0f, 0.5f);
         square(-100, -100, 200);
+
         translate(0, 0, 50);
         fill(0.0f, 1.0f, 0.0f, 0.5f);
+        texture(umfeld_image);
         square(-100, -100, 200);
+        texture();
+
         translate(0, 0, 50);
         fill(0.0f, 0.0f, 1.0f, 0.5f);
         square(-100, -100, 200);
         popMatrix();
     }
-    {
+    if constexpr (ENABLE_FINAL_FLUSH) {
         TRACE_SCOPE_N("FLUSH");
         flush();
     }
