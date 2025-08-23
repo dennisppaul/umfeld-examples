@@ -25,6 +25,7 @@ void setup() {
     // hint(ENABLE_SMOOTH_LINES);
     g->stroke_properties(radians(10), radians(10), 179);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
 
     umfeld_image = loadImage("umfeld.png");
     point_image  = loadImage("point.png");
@@ -36,7 +37,8 @@ void setup() {
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
 
-    // hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
+    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+    g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
 
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
     pointSize(32);
@@ -50,23 +52,25 @@ void draw() {
     TRACE_FRAME;
     background(0.85f);
 
-    constexpr bool ENABLE_DEBUG_TEXT         = true;
-    constexpr bool ENABLE_CIRCLE_STROKE_FILL = true;
-    constexpr bool ENABLE_CIRCLE_FILL        = true;
-    constexpr bool ENABLE_CIRCLE_STROKE      = true;
-    constexpr bool ENABLE_POLYGON            = true;
-    constexpr bool ENABLE_POINTS             = true;
-    constexpr bool ENABLE_LINE               = true;
-    constexpr bool ENABLE_IMAGE              = true;
-    constexpr bool ENABLE_LIGHT_SHAPES       = true;
-    constexpr bool ENABLE_MESH               = true;
-    constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
-    constexpr bool ENABLE_FINAL_FLUSH        = true;
+    constexpr bool ENABLE_DEBUG_TEXT         = false;
+    constexpr bool ENABLE_CIRCLE_STROKE_FILL = false;
+    constexpr bool ENABLE_CIRCLE_FILL        = false;
+    constexpr bool ENABLE_CIRCLE_STROKE      = false;
+    constexpr bool ENABLE_POLYGON            = false;
+    constexpr bool ENABLE_POINTS             = false;
+    constexpr bool ENABLE_LINE               = false;
+    constexpr bool ENABLE_IMAGE              = false;
+    constexpr bool ENABLE_LIGHT_SHAPES       = false;
+    constexpr bool ENABLE_MESH               = false;
+    constexpr bool ENABLE_TRANSPARENT_SHAPES = false;
+    constexpr bool ENABLE_FINAL_FLUSH        = false;
+    constexpr bool LINE_SHAPES               = true;
 
     if constexpr (ENABLE_DEBUG_TEXT) {
         TRACE_SCOPE_N("DEBUG_TEXT");
         fill(0);
         debug_text("FPS: " + nf(frameRate, 1), 10, 20);
+        debug_text(to_string((g->get_render_mode() == RENDER_MODE_SORTED_BY_Z_ORDER) ? "RENDER_MODE_SORTED_BY_Z_ORDER" : (g->get_render_mode() == RENDER_MODE_SORTED_BY_SUBMISSION_ORDER ? "RENDER_MODE_SORTED_BY_SUBMISSION_ORDER" : "RENDER_MODE_IMMEDIATELY")), 10, 30);
     }
     if constexpr (ENABLE_CIRCLE_STROKE_FILL) {
         TRACE_SCOPE_N("CIRCLE_STROKE_FILL");
@@ -218,6 +222,22 @@ void draw() {
         fill(0.0f, 0.0f, 1.0f, 0.5f);
         square(-100, -100, 200);
         popMatrix();
+    }
+    if (LINE_SHAPES) {
+        TRACE_SCOPE_N("LINE_SHAPES");
+        noFill();
+        stroke(0);
+        strokeWeight(1);
+        beginShape(LINES);
+        constexpr int N = 100;
+        const float   R = height * 0.49f;
+        for (int i = 0; i < N; i++) {
+            const float x = sin(i * TWO_PI / N) * R + width / 2;
+            const float y = cos(i * TWO_PI / N) * R + height / 2;
+            // TODO use translate
+            vertex(x, y);
+        }
+        endShape();
     }
     if constexpr (ENABLE_FINAL_FLUSH) {
         TRACE_SCOPE_N("FLUSH");
