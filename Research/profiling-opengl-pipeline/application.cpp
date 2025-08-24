@@ -20,7 +20,6 @@ void settings() {
 void setup() {
     strokeJoin(stroke_join_mode);
     strokeCap(stroke_cap_mode);
-    strokeWeight(stroke_weight);
 
     // hint(ENABLE_SMOOTH_LINES);
     g->stroke_properties(radians(10), radians(10), 179);
@@ -40,8 +39,8 @@ void setup() {
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
 
+    g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
-    pointSize(32);
 
     const std::vector<Vertex> vertices = loadOBJ("Panda.obj");
     mesh_shape                         = new VertexBuffer();
@@ -56,15 +55,15 @@ void draw() {
     constexpr bool ENABLE_CIRCLE_STROKE_FILL = false;
     constexpr bool ENABLE_CIRCLE_FILL        = false;
     constexpr bool ENABLE_CIRCLE_STROKE      = false;
-    constexpr bool ENABLE_POLYGON            = false;
-    constexpr bool ENABLE_POINTS             = false;
+    constexpr bool ENABLE_POLYGON            = true;
+    constexpr bool ENABLE_POINTS             = true;
     constexpr bool ENABLE_LINE               = false;
     constexpr bool ENABLE_IMAGE              = false;
     constexpr bool ENABLE_LIGHT_SHAPES       = false;
     constexpr bool ENABLE_MESH               = false;
-    constexpr bool ENABLE_TRANSPARENT_SHAPES = false;
+    constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
+    constexpr bool ENABLE_LINE_SHAPES        = true;
     constexpr bool ENABLE_FINAL_FLUSH        = false;
-    constexpr bool LINE_SHAPES               = true;
 
     if constexpr (ENABLE_DEBUG_TEXT) {
         TRACE_SCOPE_N("DEBUG_TEXT");
@@ -97,6 +96,7 @@ void draw() {
     }
     if constexpr (ENABLE_POLYGON) {
         TRACE_SCOPE_N("POLYGON");
+        strokeWeight(stroke_weight);
         stroke(0.0f);
         fill(0.5f, 0.85f, 1.0f);
         beginShape(POLYGON);
@@ -113,6 +113,7 @@ void draw() {
         TRACE_SCOPE_N("POINTS");
         stroke(0.0f);
         noFill();
+        pointSize(map(mouseX, 0, width, 1, 32));
         texture(point_image);
         beginShape(POINTS);
         for (int i = 0; i < 32; i++) {
@@ -223,26 +224,41 @@ void draw() {
         square(-100, -100, 200);
         popMatrix();
     }
-    if (LINE_SHAPES) {
+    if (ENABLE_LINE_SHAPES) {
         TRACE_SCOPE_N("LINE_SHAPES");
         noFill();
         stroke(0);
-        strokeWeight(1);
+        strokeWeight(4);
+        pushMatrix();
+        translate(width / 2, height / 2);
+        rotate(frameCount * 0.00137f);
         beginShape(LINES);
         constexpr int N = 100;
-        const float   R = height * 0.49f;
+        const float   R = height * 0.45f;
         for (int i = 0; i < N; i++) {
-            const float x = sin(i * TWO_PI / N) * R + width / 2;
-            const float y = cos(i * TWO_PI / N) * R + height / 2;
-            // TODO use translate
+            const float x = sin(i * TWO_PI / N) * R;
+            const float y = cos(i * TWO_PI / N) * R;
             vertex(x, y);
         }
-        endShape();
+        endShape(CLOSE);
+        popMatrix();
     }
     if constexpr (ENABLE_FINAL_FLUSH) {
         TRACE_SCOPE_N("FLUSH");
         flush();
     }
+}
+
+void mousePressed() {
+    static bool toggle = false;
+    if (toggle) {
+        g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
+    } else {
+        g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+    }
+    toggle = !toggle;
 }
 
 void keyPressed() {
