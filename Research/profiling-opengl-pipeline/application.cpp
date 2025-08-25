@@ -56,7 +56,7 @@ void draw() {
     constexpr bool ENABLE_CIRCLE_FILL        = false;
     constexpr bool ENABLE_CIRCLE_STROKE      = false;
     constexpr bool ENABLE_POLYGON            = true;
-    constexpr bool ENABLE_POINTS             = false;
+    constexpr bool ENABLE_POINTS             = true;
     constexpr bool ENABLE_LINE               = false;
     constexpr bool ENABLE_IMAGE              = false;
     constexpr bool ENABLE_LIGHT_SHAPES       = false;
@@ -113,7 +113,7 @@ void draw() {
         TRACE_SCOPE_N("POINTS");
         stroke(0.0f);
         noFill();
-        pointSize(map(mouseX, 0, width, 1, 32));
+        pointSize(map(mouseX, 0, width, 1, 100));
         texture(point_image);
         beginShape(POINTS);
         for (int i = 0; i < 32; i++) {
@@ -228,7 +228,7 @@ void draw() {
         TRACE_SCOPE_N("LINE_SHAPES");
         noFill();
         stroke(0);
-        strokeWeight(4);
+        strokeWeight(map(mouseY, 0, height, 1, 32));
         pushMatrix();
         translate(width / 2, height / 2);
         rotate(frameCount * 0.00137f);
