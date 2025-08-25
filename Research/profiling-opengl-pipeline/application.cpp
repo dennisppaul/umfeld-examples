@@ -39,8 +39,8 @@ void setup() {
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
 
-    g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
+    g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
 
     const std::vector<Vertex> vertices = loadOBJ("Panda.obj");
     mesh_shape                         = new VertexBuffer();
@@ -56,7 +56,7 @@ void draw() {
     constexpr bool ENABLE_CIRCLE_FILL        = false;
     constexpr bool ENABLE_CIRCLE_STROKE      = false;
     constexpr bool ENABLE_POLYGON            = true;
-    constexpr bool ENABLE_POINTS             = true;
+    constexpr bool ENABLE_POINTS             = false;
     constexpr bool ENABLE_LINE               = false;
     constexpr bool ENABLE_IMAGE              = false;
     constexpr bool ENABLE_LIGHT_SHAPES       = false;
@@ -232,10 +232,11 @@ void draw() {
         pushMatrix();
         translate(width / 2, height / 2);
         rotate(frameCount * 0.00137f);
-        beginShape(LINES);
+        beginShape(TRIANGLE_FAN);
+        vertex(0, 0);
         constexpr int N = 100;
         const float   R = height * 0.45f;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < N + 1; i++) {
             const float x = sin(i * TWO_PI / N) * R;
             const float y = cos(i * TWO_PI / N) * R;
             vertex(x, y);
