@@ -55,14 +55,14 @@ void draw() {
     constexpr bool ENABLE_CIRCLE_STROKE_FILL = false;
     constexpr bool ENABLE_CIRCLE_FILL        = false;
     constexpr bool ENABLE_CIRCLE_STROKE      = false;
-    constexpr bool ENABLE_POLYGON            = true;
+    constexpr bool ENABLE_POLYGON            = false;
     constexpr bool ENABLE_POINTS             = true;
     constexpr bool ENABLE_LINE               = false;
     constexpr bool ENABLE_IMAGE              = false;
     constexpr bool ENABLE_LIGHT_SHAPES       = false;
     constexpr bool ENABLE_MESH               = false;
     constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
-    constexpr bool ENABLE_LINE_SHAPES        = true;
+    constexpr bool ENABLE_LINE_SHAPES        = false;
     constexpr bool ENABLE_FINAL_FLUSH        = false;
 
     if constexpr (ENABLE_DEBUG_TEXT) {
@@ -152,6 +152,7 @@ void draw() {
         TRACE_SCOPE_N("LIGHT_SHAPES");
         lights();
         fill(1);
+        noStroke(); // TODO strokes and lighting cause problems?!?
         pushMatrix();
         translate(width / 2 - 120, height / 2, 0);
         sphere(120);
