@@ -33,17 +33,18 @@ void setup() {
     //      set_render_mode()
     //      hint(DISABLE_DEPTH_TEST); // add this as a reasonable default
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
-    g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+    g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
 
-    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
+    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
 
-    g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
     g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
+    g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
 
     const std::vector<Vertex> vertices = loadOBJ("Panda.obj");
     mesh_shape                         = new VertexBuffer();
+    mesh_shape->set_transparent(false);
     mesh_shape->add_vertices(vertices);
 }
 
@@ -56,11 +57,11 @@ void draw() {
     constexpr bool ENABLE_CIRCLE_FILL        = false;
     constexpr bool ENABLE_CIRCLE_STROKE      = false;
     constexpr bool ENABLE_POLYGON            = false;
-    constexpr bool ENABLE_POINTS             = true;
+    constexpr bool ENABLE_POINTS             = false;
     constexpr bool ENABLE_LINE               = false;
     constexpr bool ENABLE_IMAGE              = false;
-    constexpr bool ENABLE_LIGHT_SHAPES       = false;
-    constexpr bool ENABLE_MESH               = false;
+    constexpr bool ENABLE_LIGHT_SHAPES       = true;
+    constexpr bool ENABLE_MESH               = true;
     constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
     constexpr bool ENABLE_LINE_SHAPES        = false;
     constexpr bool ENABLE_FINAL_FLUSH        = false;
@@ -120,6 +121,7 @@ void draw() {
             const float r = TWO_PI * (frameCount + i * sin((frameCount - i) * 0.0537)) * ((i + 32) * 0.0137f) / 360.0f;
             const float x = sin(r) * 300 + width / 2;
             const float y = cos(r) * 300 + height / 2;
+            stroke(random(1.0f), random(1.0f), random(1.0f), 1.0f);
             vertex(x, y);
         }
         endShape();
@@ -127,6 +129,7 @@ void draw() {
     }
     if constexpr (ENABLE_LINE) {
         TRACE_SCOPE_N("LINE");
+        strokeWeight(32);
         noFill();
         stroke(1.0f, 0.25f, 0.35f, 0.5f);
         line(width / 2.0f - 30, height / 2 - 100,
@@ -192,7 +195,7 @@ void draw() {
         } else {
             mesh_shape->set_shape(TRIANGLES);
         }
-        if (isKeyPressed) {
+        if (isKeyPressed && key == 'z') {
             for (auto& v: mesh_shape->vertices_data()) {
                 v.position.x += random(-0.02, 0.02);
                 v.position.y += random(-0.02, 0.02);
@@ -341,7 +344,21 @@ void keyPressed() {
         g->set_stroke_render_mode(STROKE_RENDER_MODE_LINE_SHADER);
         console("STROKE_RENDER_MODE_LINE_SHADER");
     }
-    if (key == ' ') {
+    if (key == 'c') {
         close_shape = !close_shape;
+    }
+    if (key == ' ') {
+        if (g == nullptr) {
+            return;
+        }
+        static bool render_mode_toggle = false;
+        render_mode_toggle             = !render_mode_toggle;
+        if (render_mode_toggle) {
+            console(format_label("render_mode"), "RENDER_MODE_SORTED_BY_SUBMISSION_ORDER");
+            g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+        } else {
+            console(format_label("render_mode"), "RENDER_MODE_SORTED_BY_Z_ORDER");
+            g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+        }
     }
 }
