@@ -51,13 +51,13 @@ void setup() {
 void draw() {
     TRACE_FRAME;
 
-    static bool toggle_render_mode = false;
-    toggle_render_mode             = !toggle_render_mode;
-    if (toggle_render_mode) {
-        g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
-    } else {
-        g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
-    }
+    // static bool toggle_render_mode = false;
+    // toggle_render_mode             = !toggle_render_mode;
+    // if (toggle_render_mode) {
+    //     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+    // } else {
+    //     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+    // }
 
     background(0.85f);
 
