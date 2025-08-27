@@ -50,21 +50,30 @@ void setup() {
 
 void draw() {
     TRACE_FRAME;
+
+    static bool toggle_render_mode = false;
+    toggle_render_mode             = !toggle_render_mode;
+    if (toggle_render_mode) {
+        g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+    } else {
+        g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+    }
+
     background(0.85f);
 
-    constexpr bool ENABLE_DEBUG_TEXT         = false;
-    constexpr bool ENABLE_CIRCLE_STROKE_FILL = false;
-    constexpr bool ENABLE_CIRCLE_FILL        = false;
-    constexpr bool ENABLE_CIRCLE_STROKE      = false;
-    constexpr bool ENABLE_POLYGON            = false;
-    constexpr bool ENABLE_POINTS             = false;
-    constexpr bool ENABLE_LINE               = false;
-    constexpr bool ENABLE_IMAGE              = false;
+    constexpr bool ENABLE_DEBUG_TEXT         = true;
+    constexpr bool ENABLE_CIRCLE_STROKE_FILL = true;
+    constexpr bool ENABLE_CIRCLE_FILL        = true;
+    constexpr bool ENABLE_CIRCLE_STROKE      = true;
+    constexpr bool ENABLE_POLYGON            = true;
+    constexpr bool ENABLE_POINTS             = true;
+    constexpr bool ENABLE_LINE               = true;
+    constexpr bool ENABLE_IMAGE              = true;
     constexpr bool ENABLE_LIGHT_SHAPES       = true;
     constexpr bool ENABLE_MESH               = true;
     constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
-    constexpr bool ENABLE_LINE_SHAPES        = false;
-    constexpr bool ENABLE_FINAL_FLUSH        = false;
+    constexpr bool ENABLE_LINE_SHAPES        = true;
+    constexpr bool ENABLE_FINAL_FLUSH        = true;
 
     if constexpr (ENABLE_DEBUG_TEXT) {
         TRACE_SCOPE_N("DEBUG_TEXT");
@@ -154,16 +163,23 @@ void draw() {
     if constexpr (ENABLE_LIGHT_SHAPES) {
         TRACE_SCOPE_N("LIGHT_SHAPES");
         lights();
+
         fill(1);
         noStroke(); // TODO strokes and lighting cause problems?!?
         pushMatrix();
         translate(width / 2 - 120, height / 2, 0);
+        rotateX(frameCount * 0.0137f);
+        rotateY(frameCount * 0.0317f);
         sphere(120);
         popMatrix();
+
         pushMatrix();
         translate(width / 2 + 120, height / 2, 0);
+        rotateX(frameCount * 0.0317f);
+        rotateY(frameCount * 0.0137f);
         sphere(120);
         popMatrix();
+
         noLights();
     }
     if constexpr (ENABLE_MESH) {
