@@ -23,8 +23,6 @@ void setup() {
 
     // hint(ENABLE_SMOOTH_LINES);
     g->stroke_properties(radians(10), radians(10), 179);
-    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
-    g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
 
     umfeld_image = loadImage("umfeld.png");
     point_image  = loadImage("point.png");

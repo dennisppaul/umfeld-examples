@@ -107,4 +107,20 @@ void keyPressed() {
     if (key == ' ') {
         close_shape = !close_shape;
     }
+    if (key == 'a') {
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+        console("STROKE_RENDER_MODE_TRIANGULATE_2D");
+    }
+    if (key == 's') {
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
+        console("STROKE_RENDER_MODE_NATIVE");
+    }
+    if (key == 'd') {
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_TUBE_3D); // TODO this is WIP
+        console("STROKE_RENDER_MOSTROKE_RENDER_MODE_TUBE_3DDE_NATIVE");
+    }
+    if (key == 'f') {
+        g->set_stroke_render_mode(STROKE_RENDER_MODE_LINE_SHADER); // TODO this is WIP
+        console("STROKE_RENDER_MODE_LINE_SHADER");
+    }
 }

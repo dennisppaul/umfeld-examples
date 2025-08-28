@@ -1,5 +1,3 @@
-// TODO coordinates are flipped
-
 /*
  * this example shows how to use the offscreen graphics subsystem
  * to render to a PGraphics object using OpenGL.

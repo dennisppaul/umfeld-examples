@@ -13,6 +13,9 @@ void settings() {
 
 void setup() {
     rectMode(CENTER);
+    g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
+    // hint(ENABLE_DEPTH_TEST);
 }
 
 void draw() {
