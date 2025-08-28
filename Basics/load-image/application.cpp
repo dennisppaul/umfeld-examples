@@ -9,10 +9,10 @@ void settings() {
 }
 
 void setup() {
-    umfeld_image = loadImage("umfeld.png");
+    //umfeld_image = loadImage("umfeld.png");
 
     // NOTE loading images also works with URLs
-    //      umfeld_image = loadImage("https://raw.githubusercontent.com/dennisppaul/umfeld-examples/52730a5113341dadb60046a7908bafa874ce8ab4/Basics/load-image/data/umfeld.png");
+    umfeld_image = loadImage("https://raw.githubusercontent.com/dennisppaul/umfeld-examples/refs/heads/main/Basics/load-image/data/umfeld.png");
 
     rectMode(CENTER);
     noStroke();
@@ -33,7 +33,7 @@ void draw() {
     debug_text("FPS: " + nf(frameRate, 3, 1), 10, 10);
 
     fill(0.0f);
-    circle(width * 0.5f, height * 0.5f, umfeld_image->width);
+    circle(width * 0.5f, height * 0.5f, umfeld_image->width + 10);
 
     fill(1.0f);
     image(umfeld_image, mouseX, mouseY);

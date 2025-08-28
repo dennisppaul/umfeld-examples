@@ -36,7 +36,7 @@ ShaderSource shader_source_line{
 
             uniform mat4 uMVP;
             uniform float uLineWidth;       // in pixels
-            uniform vec2 uViewportSize;     // in pixels
+            uniform vec2 u_view_matrixportSize;     // in pixels
             uniform float uMiterLimit;      // max miter length (e.g. 4.0)
 
             void main() {
@@ -63,7 +63,7 @@ ShaderSource shader_source_line{
                 vec2 miterStart = normalize(n1 + n2);
                 vec2 miterEnd   = normalize(n2 + n3);
 
-                float pixelToNDC = 2.0 / uViewportSize.y;
+                float pixelToNDC = 2.0 / u_view_matrixportSize.y;
                 float halfWidth = uLineWidth * 0.5 * pixelToNDC;
 
                 float lenStart = halfWidth / max(dot(miterStart, n2), 0.1);
@@ -175,7 +175,7 @@ void draw() {
     shader(shader_line);
     shader_line->set_uniform("uMVP", g->projection_matrix * g->view_matrix * g->model_matrix);
     shader_line->set_uniform("uLineWidth", map(mouseX, 0, width, 1, 20));
-    shader_line->set_uniform("uViewportSize", width, height);
+    shader_line->set_uniform("u_view_matrixportSize", width, height);
     shader_line->set_uniform("uMiterLimit", 4.0f);
     mesh(mesh_shape);
     shader();

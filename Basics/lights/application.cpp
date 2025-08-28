@@ -15,7 +15,7 @@ void settings() {
 void setup() {
     noStroke();
     fill(1.0f);
-    hint(ENABLE_DEPTH_TEST); // enable depth testing for 3D rendering
+    profile(PROFILE_3D);
 }
 
 void draw() {

@@ -100,7 +100,7 @@ void draw() {
     fill_color(soft_red);
 
     translate(280, 0);
-    beginShape(TRIANGLES);
+    beginShape(TRIANGLES); // TODO disconnected triangles cause line artifacts
     vertex(120, 300);
     vertex(160, 120);
     vertex(200, 300);
@@ -245,7 +245,6 @@ void keyPressed() {
         console("STROKE_RENDER_MODE_TRIANGULATE_2D");
     }
     if (key == 'f') {
-        // TODO WIP
         g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
         console("STROKE_RENDER_MODE_NATIVE");
     }
