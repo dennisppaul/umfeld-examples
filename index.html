@@ -1,0 +1,2090 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Umfeld vs Processing Comparison Report</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; background-color: #f0f2f5; color: #333; }
+        .report-container { max-width: 1400px; margin: 2em auto; background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        h1, h2 { color: #111; border-bottom: 1px solid #eaecef; padding-bottom: 0.3em; }
+        details { border: 1px solid #ddd; border-radius: 5px; margin-bottom: 1em; }
+        summary { font-weight: bold; padding: 1em; cursor: pointer; background-color: #f7f7f7; list-style-position: inside; }
+        table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; word-wrap: break-word; }
+        th { background-color: #f2f2f2; }
+        tr { height: 40px; }
+        th:nth-child(1) { width: 25%; }
+        th:nth-child(2) { width: 10%; }
+        th:nth-child(3) { width: 65%; }
+        .tooltip { position: relative; display: inline-block; }
+        .tooltip .tooltip-content {
+            visibility: hidden; width: 320px; background-color: black; color: #fff;
+            text-align: center; border-radius: 6px; padding: 5px;
+            position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -160px;
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltip-content { visibility: visible; opacity: 1; }
+        .tooltip-content img, .tooltip-content video { max-width: 100%; height: auto; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); }
+        .modal-content { margin: auto; display: block; max-width: 90%; max-height: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .close { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; transition: 0.3s; }
+        .close:hover, .close:focus { color: #bbb; text-decoration: none; cursor: pointer; }
+        td details { border: none; margin: 0; }
+        td summary { padding: 0; background: none; font-weight: normal; display: inline-block; width: auto; cursor: pointer; }
+        td summary:hover { background-color: #8B0000; color: #fff; border-radius: 3px; padding: 2px 4px; }
+        td details[open] summary { margin-bottom: 8px; }
+        td summary:before { content: "▼ "; }
+        td details[open] summary:before { content: "▲ "; }
+        pre { background-color: #f6f8fa; border: 1px solid #ddd; border-radius: 4px; padding: 10px; white-space: pre-wrap; font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace; font-size: 13px; }
+        strong { color: #111; }
+        /* Link and Hover Highlighting */
+        a:hover, .tooltip a:hover {
+            background-color: #8B0000; /* Dark Red */
+            color: #fff; /* Ensure text is readable on dark background */
+            border-radius: 3px;
+            padding: 2px 4px;
+            text-decoration: none;
+        }
+        .project-category-link {
+            font-size: 0.8em;
+            color: #666;
+            margin-left: 5px;
+        }
+        .project-category-link a {
+            color: #007bff; /* Default link color */
+            text-decoration: none;
+        }
+        .project-category-link a:hover {
+            background-color: #8B0000; /* Dark Red */
+            color: #fff; /* Ensure text is readable on dark background */
+            border-radius: 3px;
+            padding: 2px 4px;
+            text-decoration: none;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .toc li {
+            margin-bottom: 5px;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .toc a:hover {
+            background-color: #8B0000;
+            color: #fff;
+            border-radius: 3px;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Umfeld vs Processing Comparison Report</h1>
+    <p><em>Generated on: 2025-08-07 20:21:38</em></p>
+<div class="report-container">
+    <h2>📊 Executive Summary</h2>
+    <ul>
+        <li><strong>Total Projects:</strong> 169</li>
+        <li><strong>✅ Successful:</strong> 165</li>
+        <li><strong>🔨 Build Failures:</strong> 0</li>
+        <li><strong>🪟 Window Failures:</strong> 2</li>
+        <li><strong>🔗 Concat Failures:</strong> 2</li>
+        <li><strong>❓ Unknown Issues:</strong> 0</li>
+        <li><strong>Unimplemented Features:</strong> 27</li>
+        <li><strong>FIXME Items:</strong> 12</li>
+        <li><strong>Interactive Projects:</strong> 74</li>
+    </ul>
+<h2>Table of Contents</h2><div class="toc"><ul><li><a href="#section-window-failed">🪟 Window Detection Failures (2 projects)</a></li><li><a href="#section-concat-failed">🔗 Concatenation Failures (2 projects)</a></li><li><a href="#section-issues">🚩 Projects with Code Issues (52 projects)</a></li><li><a href="#section-successful">✅ Successful Projects (165 projects)</a><ul><li><a href="#section-Basics-Arrays">📂 Basics/Arrays (3 projects)</a></li><li><a href="#section-Basics-Camera">📂 Basics/Camera (3 projects)</a></li><li><a href="#section-Basics-Color">📂 Basics/Color (7 projects)</a></li><li><a href="#section-Basics-Control">📂 Basics/Control (5 projects)</a></li><li><a href="#section-Basics-Data">📂 Basics/Data (6 projects)</a></li><li><a href="#section-Basics-Form">📂 Basics/Form (8 projects)</a></li><li><a href="#section-Basics-Image">📂 Basics/Image (7 projects)</a></li><li><a href="#section-Basics-Input">📂 Basics/Input (12 projects)</a></li><li><a href="#section-Basics-Lights">📂 Basics/Lights (6 projects)</a></li><li><a href="#section-Basics-Math">📂 Basics/Math (19 projects)</a></li><li><a href="#section-Basics-Objects">📂 Basics/Objects (4 projects)</a></li><li><a href="#section-Basics-Shape">📂 Basics/Shape (2 projects)</a></li><li><a href="#section-Basics-Structure">📂 Basics/Structure (10 projects)</a></li><li><a href="#section-Basics-Transform">📂 Basics/Transform (6 projects)</a></li><li><a href="#section-Basics-Typography">📂 Basics/Typography (3 projects)</a></li><li><a href="#section-Basics-Web">📂 Basics/Web (2 projects)</a></li><li><a href="#section-Topics-AdvancedData">📂 Topics/AdvancedData (10 projects)</a></li><li><a href="#section-Topics-Animation">📂 Topics/Animation (2 projects)</a></li><li><a href="#section-Topics-Cellular Automata">📂 Topics/Cellular Automata (4 projects)</a></li><li><a href="#section-Topics-Create Shapes">📂 Topics/Create Shapes (2 projects)</a></li><li><a href="#section-Topics-Curves">📂 Topics/Curves (1 projects)</a></li><li><a href="#section-Topics-Drawing">📂 Topics/Drawing (3 projects)</a></li><li><a href="#section-Topics-File IO">📂 Topics/File IO (5 projects)</a></li><li><a href="#section-Topics-Fractals and L-Systems">📂 Topics/Fractals and L-Systems (5 projects)</a></li><li><a href="#section-Topics-GUI">📂 Topics/GUI (4 projects)</a></li><li><a href="#section-Topics-Geometry">📂 Topics/Geometry (7 projects)</a></li><li><a href="#section-Topics-Image Processing">📂 Topics/Image Processing (12 projects)</a></li><li><a href="#section-Topics-Interaction">📂 Topics/Interaction (7 projects)</a></li></ul></li></ul></div><h2 id="section-window-failed">🪟 Window Detection Failures</h2>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Penrose Tile<div class="project-category-link">cat: <a href="#section-Topics-Fractals and L-Systems">Topics/Fractals and L-Systems</a></div></td><td>🪟 Window Not Found</td><td><details><summary>Details (3)</summary><h4>Window Detection Issues</h4><p>**Window Detection Error in Penrose Tile:**\n```\n2025-08-07 19:41:43,051 [ERROR] WINDOW_NOT_FOUND: Could not find window for &#x27;Penrose Tile&#x27; (PID: 1719643) - Application may not have started properly or window creation failed\n```</p><h4>Concatenation Issues</h4><p>**Concatenation Skipped in Penrose Tile:**\n```\n2025-08-07 19:41:43,052 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;Penrose Tile&#x27; - missing Umfeld and Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in Penrose Tile:**\n```\n2025-08-07 19:41:36,746 [WARNING] No Processing version found for &#x27;Penrose Tile&#x27;, skipping Processing part\n```</p></details></td></tr><tr><td>TileImages<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🪟 Window Not Found</td><td><details><summary>Details (2)</summary><h4>Window Detection Issues</h4><p>**Window Detection Error in TileImages:**\n```\n2025-08-07 19:54:42,194 [ERROR] WINDOW_NOT_FOUND: Could not find window for &#x27;TileImages&#x27; (PID: 1772546) - Application may not have started properly or window creation failed\n```</p><h4>Concatenation Issues</h4><p>**Concatenation Skipped in TileImages:**\n```\n2025-08-07 19:54:42,194 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;TileImages&#x27; - missing Processing output file(s)\n```</p></details></td></tr></tbody>
+        </table>
+<h2 id="section-concat-failed">🔗 Concatenation Failures</h2>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>SafeFile2<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🔗 Concat Failed</td><td><details><summary>Details (2)</summary><h4>Concatenation Issues</h4><p>**Concatenation Skipped in SafeFile2:**\n```\n2025-08-07 19:48:36,974 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;SafeFile2&#x27; - missing Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in SafeFile2:**\n```\n2025-08-07 19:48:33,426 [WARNING] No Processing version found for &#x27;SafeFile2&#x27;, skipping Processing part\n```</p></details></td></tr><tr><td>saveOneImage<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🔗 Concat Failed</td><td><details><summary>Details (4)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- .tif is unimplemented though I don&#x27;t think it is needed</code></pre></div><div><strong>Unimplemented in application.cpp (line 33):</strong><pre><code class="language-cpp">}
+/*
+note:
+- .tif is unimplemented though I don&#x27;t think it is needed
+*/</code></pre></div><h4>Concatenation Issues</h4><p>**Concatenation Skipped in saveOneImage:**\n```\n2025-08-07 19:49:34,501 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;saveOneImage&#x27; - missing Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in saveOneImage:**\n```\n2025-08-07 19:49:30,965 [WARNING] No Processing version found for &#x27;saveOneImage&#x27;, skipping Processing part\n```</p></details></td></tr></tbody>
+        </table>
+<h2 id="section-issues">🚩 Projects with Code Issues</h2>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Alphamask<div class="project-category-link">cat: <a href="#section-Basics-Image">Basics/Image</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Alphamask.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Alphamask.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 22):</strong><pre><code class="language-cpp">void setup() {
+    img     = loadImage(&quot;moonwalk.jpg&quot;);
+    imgMask = loadImage(&quot;mask.jpg&quot;);
+    // img-&gt;mask(imgMask); //unimplemented
+    // imageMode(CENTER); //unimplemented
+    
+}</code></pre></div><div><strong>Unimplemented in application.cpp (line 23):</strong><pre><code class="language-cpp">img     = loadImage(&quot;moonwalk.jpg&quot;);
+    imgMask = loadImage(&quot;mask.jpg&quot;);
+    // img-&gt;mask(imgMask); //unimplemented
+    // imageMode(CENTER); //unimplemented
+    
+}</code></pre></div></details></td></tr><tr><td>BeginEndContour<div class="project-category-link">cat: <a href="#section-Topics-Create Shapes">Topics/Create Shapes</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BeginEndContour.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BeginEndContour.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 10):</strong><pre><code class="language-cpp">using namespace umfeld;
+
+// PShape s; //unimplemented
+
+void settings() {
+    size(640, 360, RENDERER_OPENGL_3_3_CORE); //@diff(renderer)</code></pre></div></details></td></tr><tr><td>Blending<div class="project-category-link">cat: <a href="#section-Topics-Image Processing">Topics/Image Processing</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blending.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blending.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- blenMode is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- blenMode is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>CharactersStrings<div class="project-category-link">cat: <a href="#section-Basics-Data">Basics/Data</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CharactersStrings.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CharactersStrings.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 51):</strong><pre><code class="language-cpp">text(words, 50, 120); //@diff(text)
+}
+
+// FIXME: keyTyped() has no response(6.15.8-arch1-1)
+void keyTyped() {
+    // The variable &quot;key&quot; always contains the value
+    // of the most recent key pressed.</code></pre></div></details></td></tr><tr><td>CompositeObjects<div class="project-category-link">cat: <a href="#section-Basics-Objects">Basics/Objects</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CompositeObjects.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CompositeObjects.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in Egg.h (line 41):</strong><pre><code class="language-cpp">scale(scalar);
+        beginShape();
+        vertex(0, -100);
+        // bezierVertex(25, -100, 40, -65, 40, -40); //unimplemented
+        // bezierVertex(40, -15, 25, 0, 0, 0);
+        // bezierVertex(-25, 0, -40, -15, -40, -40);
+        // bezierVertex(-40, -65, -25, -100, 0, -100);</code></pre></div></details></td></tr><tr><td>CreateImage<div class="project-category-link">cat: <a href="#section-Basics-Image">Basics/Image</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateImage.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateImage.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createImage() is not implemented.
+- couldn&#x27;t find any implementation to set the pixel format either. for pimage, nor pgraphics.</code></pre></div><div><strong>Unimplemented in application.cpp (line 18):</strong><pre><code class="language-cpp">}
+
+void setup() {
+//   img = createImage(230, 230, ARGB); // unimplemented
+    // size_t pix_length = img-&gt;width * img-&gt;height * img-&gt;channels; //@diff(pointer)
+    // for(int i = 0; i &lt; pix_length; i++) {
+    //     float a = map(i, 0, pix_length, 1.f, 0.f); //@diff(color_range)</code></pre></div></details></td></tr><tr><td>Directional<div class="project-category-link">cat: <a href="#section-Basics-Lights">Basics/Lights</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Directional.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Directional.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    float dirY = (mouseY / float(height) - 0.5) * 2;
+    float dirX = (mouseX / float(width) - 0.5) * 2;
+//    directionalLight(.8f, .8f, .8f, -dirX, -dirY, -1.f); //FIXME: error: ‘directionalLight’ was not declared in this scope 
+    translate(width / 2 - 100, height / 2, 0);
+    sphere(80);
+    translate(200, 0, 0);</code></pre></div></details></td></tr><tr><td>DisableStyle<div class="project-category-link">cat: <a href="#section-Basics-Shape">Basics/Shape</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DisableStyle.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DisableStyle.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 25):</strong><pre><code class="language-cpp">void setup() {
+    // The file &quot;bot1.svg&quot; must be in the data folder
+    // of the current sketch to load successfully
+    // bot = loadShape(&quot;bot1.svg&quot;); // unimplemented
+    noLoop();
+}</code></pre></div></details></td></tr><tr><td>EdgeDetection<div class="project-category-link">cat: <a href="#section-Topics-Image Processing">Topics/Image Processing</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EdgeDetection.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EdgeDetection.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (4)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div><div><strong>Unimplemented in application.cpp (line 25):</strong><pre><code class="language-cpp">/*
+note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div><div><strong>Unimplemented in application.cpp (line 26):</strong><pre><code class="language-cpp">note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div></details></td></tr><tr><td>EmbeddedLinks<div class="project-category-link">cat: <a href="#section-Basics-Web">Basics/Web</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedLinks.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedLinks.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 38):</strong><pre><code class="language-cpp">void mousePressed() {
+    if (overButton) {
+        // link(&quot;https://github.com/dennisppaul/umfeld&quot;); //unimplemented
+    }
+}</code></pre></div></details></td></tr><tr><td>Extrusion<div class="project-category-link">cat: <a href="#section-Topics-Image Processing">Topics/Image Processing</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Extrusion.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Extrusion.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- *.loadPixels() is unimplemented.</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- *.loadPixels() is unimplemented.
+*/</code></pre></div></details></td></tr><tr><td>GroupPShape<div class="project-category-link">cat: <a href="#section-Topics-Create Shapes">Topics/Create Shapes</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GroupPShape.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GroupPShape.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createShape() is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- createShape() is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>Icosahedra<div class="project-category-link">cat: <a href="#section-Topics-Geometry">Topics/Geometry</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Icosahedra.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Icosahedra.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the lights() turns the shapes color into grey</code></pre></div></details></td></tr><tr><td>Keyboard<div class="project-category-link">cat: <a href="#section-Basics-Input">Basics/Input</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Keyboard.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Keyboard.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- drawing doesn&#x27;t work inside the keyPressed() 
+- i guess it is threaded and isn&#x27;t taken into the gl context
+- which is good, cuz the gl context shall live only in the main thread.
+- I might rewrite it to work with the main thread.</code></pre></div></details></td></tr><tr><td>Letters<div class="project-category-link">cat: <a href="#section-Basics-Typography">Basics/Typography</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Letters.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Letters.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 22):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Create the font
+    // printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SourceCodePro-Regular.ttf&quot;, 24);
+    f = loadFont(&quot;SourceCodePro-Regular.ttf&quot;, 24); //@diff(loadFont)
+    textFont(f);</code></pre></div></details></td></tr><tr><td>LoadFile2<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- segfaults happens when trying to load unsupported fonts like .vlw
+- might need to guard against unsupported font formats</code></pre></div></details></td></tr><tr><td>LoadSaveJSON<div class="project-category-link">cat: <a href="#section-Topics-AdvancedData">Topics/AdvancedData</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveJSON.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveJSON.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 41):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A JSON object
+// JSONObject json; // unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>LoadSaveTable<div class="project-category-link">cat: <a href="#section-Topics-AdvancedData">Topics/AdvancedData</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveTable.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveTable.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 26):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A Table object
+// Table table; //unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>LoadSaveXML<div class="project-category-link">cat: <a href="#section-Topics-AdvancedData">Topics/AdvancedData</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveXML.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveXML.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 34):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A Table object
+// XML xml; //unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>LogicalOperators<div class="project-category-link">cat: <a href="#section-Basics-Control">Basics/Control</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LogicalOperators.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LogicalOperators.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 43):</strong><pre><code class="language-cpp">// The expression &quot;if(test)&quot; is equivalent to &quot;if(test == true)&quot;
+        if (test) {
+            stroke(0.f); //@diff(color_range)
+            point(width / 3, i); // FIXME: THIS DOES NOT WORK
+        }
+
+        // Testing if a boolean value is &quot;false&quot;</code></pre></div><div><strong>FIXME in application.cpp (line 50):</strong><pre><code class="language-cpp">// The expression &quot;if(!test)&quot; is equivalent to &quot;if(test == false)&quot;
+        if (!test) {
+            stroke(1.f); //@diff(color_range)
+            point(width / 4, i); // FIXME: THIS DOES NOT WORK
+        }
+    }
+}</code></pre></div></details></td></tr><tr><td>Loop<div class="project-category-link">cat: <a href="#section-Basics-Structure">Basics/Structure</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Loop.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Loop.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- redraw() behaves like loop() in this context</code></pre></div><div><strong>Unimplemented in application.cpp (line 36):</strong><pre><code class="language-cpp">}
+
+void mousePressed() {
+    // loop(); // unimplemented
+    redraw(); 
+}
+/*</code></pre></div></details></td></tr><tr><td>Mixture<div class="project-category-link">cat: <a href="#section-Basics-Lights">Basics/Lights</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mixture.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mixture.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 24):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    translate(width / 2, height / 2);
+
+    // FIXME: error: ‘pointLight’ was not declared in this scope
+    // Orange point light on the right
+    // pointLight(150, 100, 0,   // Color
+    //           200, -150, 0); // Position</code></pre></div><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">// pointLight(150, 100, 0,   // Color
+    //           200, -150, 0); // Position
+    
+    // FIXME: error: &#x27;directionalLight&#x27; was not declared in this scope
+    // Blue directional light from the left
+    // directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction</code></pre></div><div><strong>FIXME in application.cpp (line 34):</strong><pre><code class="language-cpp">// directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction
+
+    // FIXME: error: ‘spotLight’ was not declared in this scope
+    // spotLight(255, 255, 109, // Color
+    //          0, 40, 200,    // Position
+    //          0, -0.5, -0.5, // Direction</code></pre></div></details></td></tr><tr><td>MixtureGrid<div class="project-category-link">cat: <a href="#section-Basics-Lights">Basics/Lights</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MixtureGrid.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MixtureGrid.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 41):</strong><pre><code class="language-cpp">}
+
+void defineLights() {
+    // FIXME: error: ‘pointLight’ was not declared in this scope
+    // Orange point light on the right
+    // pointLight(150, 100, 0,   // Color
+    //            200, -150, 0); // Position</code></pre></div><div><strong>FIXME in application.cpp (line 46):</strong><pre><code class="language-cpp">// pointLight(150, 100, 0,   // Color
+    //            200, -150, 0); // Position
+
+    // FIXME: error: &#x27;directionalLight&#x27; was not declared in this scope
+    // Blue directional light from the left
+    // directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction</code></pre></div><div><strong>FIXME in application.cpp (line 51):</strong><pre><code class="language-cpp">// directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction
+
+    // FIXME: error: ‘spotLight’ was not declared in this scope
+    // spotLight(255, 255, 109, // Color
+    //           0, 40, 200,    // Position
+    //           0, -0.5, -0.5, // Direction</code></pre></div></details></td></tr><tr><td>MouseSignals<div class="project-category-link">cat: <a href="#section-Basics-Input">Basics/Input</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseSignals.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseSignals.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 54):</strong><pre><code class="language-cpp">for (int i = 1; i &lt; width; i++) {
+        // Draw the x-values
+        stroke(1.f); //@diff(color_range)
+        point(i, map(xvals[i], 0, width, 0, height / 3 - 1)); //FIXME: does not draw anything.
+
+        // Draw the y-values
+        stroke(0.f); //@diff(color_range)</code></pre></div><div><strong>FIXME in application.cpp (line 58):</strong><pre><code class="language-cpp">// Draw the y-values
+        stroke(0.f); //@diff(color_range)
+        point(i, height / 3 + yvals[i] / 3); //FIXME: does not draw anything.
+
+        // Draw the mouse presses
+        stroke(1.f); //@diff(color_range)</code></pre></div></details></td></tr><tr><td>Noise2D<div class="project-category-link">cat: <a href="#section-Basics-Math">Basics/Math</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise2D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise2D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 30):</strong><pre><code class="language-cpp">float xoff   = 0.0; // Start xoff at 0
+    float detail = map(mouseX, 0, width, 0.1, 0.6);
+    // noiseDetail(8, detail); //unimplemented
+
+
+    // For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value</code></pre></div></details></td></tr><tr><td>NoiseSphere<div class="project-category-link">cat: <a href="#section-Topics-Geometry">Topics/Geometry</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseSphere.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseSphere.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- unimplemented functions:
+    - screenX(float x, float y, float z)
+    - screenY(float x, float y, float z)
+    - noiseDetail(int)</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- unimplemented functions:
+    - screenX(float x, float y, float z)
+    - screenY(float x, float y, float z)
+    - noiseDetail(int)</code></pre></div></details></td></tr><tr><td>OperatorPrecedence<div class="project-category-link">cat: <a href="#section-Basics-Math">Basics/Math</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OperatorPrecedence.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OperatorPrecedence.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the top comment is adjusted to align with c++</code></pre></div></details></td></tr><tr><td>Orthographic<div class="project-category-link">cat: <a href="#section-Basics-Camera">Basics/Camera</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Orthographic.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Orthographic.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- `pespective()` and `ortho()` disables the `lights()`.</code></pre></div><div><strong>FIXME in application.cpp (line 35):</strong><pre><code class="language-cpp">lights();
+    float far = map(mouseX, 0, width, 120, 400);
+    if (showPerspective == true) {
+        perspective(PI / 3.0, float(width) / float(height), 10, far); // FIXME: disables the light completely
+    } else {
+        ortho(-width / 2.0, width / 2.0, -height / 2.0, height / 2.0, 10, far); // FIXME: disables the light completely
+    }</code></pre></div><div><strong>FIXME in application.cpp (line 37):</strong><pre><code class="language-cpp">if (showPerspective == true) {
+        perspective(PI / 3.0, float(width) / float(height), 10, far); // FIXME: disables the light completely
+    } else {
+        ortho(-width / 2.0, width / 2.0, -height / 2.0, height / 2.0, 10, far); // FIXME: disables the light completely
+    }
+    translate(width / 2, height / 2, 0);
+    rotateX(-PI / 6);</code></pre></div></details></td></tr><tr><td>Pattern<div class="project-category-link">cat: <a href="#section-Topics-Drawing">Topics/Drawing</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pattern.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pattern.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">same issue as the continuous_lines example,
+        see the note in the continuous_lines/application.cpp file</code></pre></div></details></td></tr><tr><td>Penrose Tile<div class="project-category-link">cat: <a href="#section-Topics-Fractals and L-Systems">Topics/Fractals and L-Systems</a></div></td><td>🪟 Window Not Found</td><td><details><summary>Details (3)</summary><h4>Window Detection Issues</h4><p>**Window Detection Error in Penrose Tile:**\n```\n2025-08-07 19:41:43,051 [ERROR] WINDOW_NOT_FOUND: Could not find window for &#x27;Penrose Tile&#x27; (PID: 1719643) - Application may not have started properly or window creation failed\n```</p><h4>Concatenation Issues</h4><p>**Concatenation Skipped in Penrose Tile:**\n```\n2025-08-07 19:41:43,052 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;Penrose Tile&#x27; - missing Umfeld and Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in Penrose Tile:**\n```\n2025-08-07 19:41:36,746 [WARNING] No Processing version found for &#x27;Penrose Tile&#x27;, skipping Processing part\n```</p></details></td></tr><tr><td>Perspective<div class="project-category-link">cat: <a href="#section-Basics-Camera">Basics/Camera</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Perspective.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Perspective.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- `pespective()` and `ortho()` disables the `lights()`.</code></pre></div><div><strong>FIXME in application.cpp (line 42):</strong><pre><code class="language-cpp">float cameraZ = cameraY / tanf(fov / 2.f);
+
+
+    perspective(fov, aspect, cameraZ / 10.f, cameraZ * 10.f); // FIXME: this disables the light
+
+    translate(width / 2.f + 30.f, height / 2.f, 0.f);
+    rotateX(-PI / 6.f);</code></pre></div></details></td></tr><tr><td>Pointillism<div class="project-category-link">cat: <a href="#section-Basics-Image">Basics/Image</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pointillism.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pointillism.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- i see a general conflict between the different color representations (eg. uint32_t vs. float)
+- i suggest either one of the following:
+    - use uint32_t for the `default` color representation, and everything that uses float should be a wrapper with a function suffixed `_f` that runs the uint32_t function internally.
+    - use float for the `default` color representation, and everything that uses uint32_t should be a wrapper with a function suffixed with `_i` that runs the float function internally.</code></pre></div></details></td></tr><tr><td>PointsLines<div class="project-category-link">cat: <a href="#section-Basics-Form">Basics/Form</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PointsLines.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PointsLines.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (6)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 41):</strong><pre><code class="language-cpp">// Draw white points
+    stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 42):</strong><pre><code class="language-cpp">// Draw white points
+    stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 43):</strong><pre><code class="language-cpp">stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 44):</strong><pre><code class="language-cpp">point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div><div><strong>FIXME in application.cpp (line 45):</strong><pre><code class="language-cpp">point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div><div><strong>FIXME in application.cpp (line 46):</strong><pre><code class="language-cpp">point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div></details></td></tr><tr><td>Primitives3D<div class="project-category-link">cat: <a href="#section-Basics-Form">Basics/Form</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Primitives3D.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Primitives3D.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- lights() does not work here</code></pre></div></details></td></tr><tr><td>Reach2<div class="project-category-link">cat: <a href="#section-Topics-Interaction">Topics/Interaction</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the default stroke cap is angular/rectangle
+- strokeCap() is implemented but the enum ROUND exist only for strokeJoint?
+- the ROUND enum doesn&#x27;t exist in the StrokeCap enum in UmfeldConstants.h 
+- trying to add it causes naming conflict. maybe better to use namespace to scope them better, e.g STROKECAP::ROUND, STROKEJOINT::ROUND
+- scoping also might help in some other places in umfeld, internally and externally.
+- imho, the global naming conflict wont reslove otherwise
+- also, the stroke render mode STROKE_RENDER_MODE_BARYCENTRIC_SHADER doesn&#x27;t process the stroke caps.
+- instead, the STROKE_RENDER_MODE_TRIANGULATE_2D shall be used.</code></pre></div></details></td></tr><tr><td>Reach3<div class="project-category-link">cat: <a href="#section-Topics-Interaction">Topics/Interaction</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach3.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach3.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- I see the stroke triangulation of the RENDER_MODE_BUFFERED is not implemented yet. (inside src/PGraphicsOpenGL_3_3_core.cpp)
+- this example, then, might not be ready yet.</code></pre></div></details></td></tr><tr><td>Redraw<div class="project-category-link">cat: <a href="#section-Basics-Structure">Basics/Structure</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Redraw.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Redraw.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- redraw behaves different than in processing.
+- processing::redraw() runs the draw() once,
+- but umfeld::redraw() disables the noLoop() and 
+  enables the loop again.</code></pre></div></details></td></tr><tr><td>Reflection<div class="project-category-link">cat: <a href="#section-Basics-Lights">Basics/Lights</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reflection.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reflection.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 27):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    translate(width / 2, height / 2);
+    // Set the specular color of lights that follow
+    // lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 28):</strong><pre><code class="language-cpp">translate(width / 2, height / 2);
+    // Set the specular color of lights that follow
+    // lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope
+    sphere(120);</code></pre></div><div><strong>FIXME in application.cpp (line 30):</strong><pre><code class="language-cpp">// lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope
+    sphere(120);
+}</code></pre></div></details></td></tr><tr><td>RequestImage<div class="project-category-link">cat: <a href="#section-Basics-Image">Basics/Image</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RequestImage.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RequestImage.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 39):</strong><pre><code class="language-cpp">// Load images asynchronously
+    // for (int i = 0; i &lt; imgCount; i++) {
+    //     imgs[i] = requestImage(&quot;PT_anim&quot; + nf(i, 4) + &quot;.gif&quot;); // unimplemented
+    // }
+}</code></pre></div></details></td></tr><tr><td>SafeFile2<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🔗 Concat Failed</td><td><details><summary>Details (2)</summary><h4>Concatenation Issues</h4><p>**Concatenation Skipped in SafeFile2:**\n```\n2025-08-07 19:48:36,974 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;SafeFile2&#x27; - missing Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in SafeFile2:**\n```\n2025-08-07 19:48:33,426 [WARNING] No Processing version found for &#x27;SafeFile2&#x27;, skipping Processing part\n```</p></details></td></tr><tr><td>ShapePrimitives<div class="project-category-link">cat: <a href="#section-Basics-Form">Basics/Form</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapePrimitives.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapePrimitives.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- triangle() and quad() can be 2D shapes,
+  so to have a override for 2D coordinates arguments(without z), or even with glm::vecN might be meaningful.</code></pre></div></details></td></tr><tr><td>SpaceJunk<div class="project-category-link">cat: <a href="#section-Topics-Geometry">Topics/Geometry</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SpaceJunk.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SpaceJunk.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 44):</strong><pre><code class="language-cpp">fill(.78f); //@diff(color_range)
+
+    // Set up some different colored lights
+    // pointLight(51, 102, 255, 65, 60, 100); //unimplemented
+    // pointLight(200, 40, 60, -65, -60, -150);
+
+    // Raise overall light in scene</code></pre></div><div><strong>Unimplemented in application.cpp (line 48):</strong><pre><code class="language-cpp">// pointLight(200, 40, 60, -65, -60, -150);
+
+    // Raise overall light in scene
+    // ambientLight(70, 70, 10); //unimplemented
+
+    // Center geometry in display windwow.
+    // you can changlee 3rd argument (&#x27;0&#x27;)</code></pre></div></details></td></tr><tr><td>Spore1<div class="project-category-link">cat: <a href="#section-Topics-Cellular Automata">Topics/Cellular Automata</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the pixels array is not cleared. needs deeper inspection</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 24):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        pixels[int((int)width * y + x)] = c; //@diff(set() unimplemented)
+    }
+
+    uint32_t getpix(int x, int y) {</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 40):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        return pixels[int((int)width * y + x)]; //@diff(get() unimplemented)
+    }
+};</code></pre></div></details></td></tr><tr><td>Spore2<div class="project-category-link">cat: <a href="#section-Topics-Cellular Automata">Topics/Cellular Automata</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">inside the clearScreen(), the original examples used background() but this does not clear the pixel buffer in umfeld.</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 24):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        pixels[int((int)width * y + x)] = c; //@diff(set() unimplemented)
+    }
+
+    uint32_t getpix(int x, int y) {</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 40):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        return pixels[int((int)width * y + x)]; //@diff(get() unimplemented)
+    }
+};</code></pre></div></details></td></tr><tr><td>Spot<div class="project-category-link">cat: <a href="#section-Basics-Lights">Basics/Lights</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spot.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spot.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 26):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Light the bottom of the sphere
+    // directionalLight(51, 102, 126, 0, -1, 0); //FIXME: error: ‘directionalLight’ was not declared in this scope
+
+    // Orange light on the upper-right of the sphere
+    // spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">// directionalLight(51, 102, 126, 0, -1, 0); //FIXME: error: ‘directionalLight’ was not declared in this scope
+
+    // Orange light on the upper-right of the sphere
+    // spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    // Moving spotlight that follows the mouse
+    // spotLight(102, 153, 204, 360, mouseY, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 32):</strong><pre><code class="language-cpp">// spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    // Moving spotlight that follows the mouse
+    // spotLight(102, 153, 204, 360, mouseY, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    translate(width / 2, height / 2, 0);
+    sphere(120);</code></pre></div></details></td></tr><tr><td>TextRotation<div class="project-category-link">cat: <a href="#section-Basics-Typography">Basics/Typography</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TextRotation.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TextRotation.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">= the text() is drawing the bounding box of the text.
+- compare the text() after calling noStroke()</code></pre></div><div><strong>Unimplemented in application.cpp (line 21):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Create the font from the .ttf file in the data folder
+    // f = createFont(&quot;SourceCodePro-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SourceCodePro-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);
+}</code></pre></div></details></td></tr><tr><td>Threads<div class="project-category-link">cat: <a href="#section-Topics-AdvancedData">Topics/AdvancedData</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Threads.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Threads.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- thread is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 36):</strong><pre><code class="language-cpp">}
+/*
+note:
+- thread is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>TileImages<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🪟 Window Not Found</td><td><details><summary>Details (2)</summary><h4>Window Detection Issues</h4><p>**Window Detection Error in TileImages:**\n```\n2025-08-07 19:54:42,194 [ERROR] WINDOW_NOT_FOUND: Could not find window for &#x27;TileImages&#x27; (PID: 1772546) - Application may not have started properly or window creation failed\n```</p><h4>Concatenation Issues</h4><p>**Concatenation Skipped in TileImages:**\n```\n2025-08-07 19:54:42,194 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;TileImages&#x27; - missing Processing output file(s)\n```</p></details></td></tr><tr><td>Transparency<div class="project-category-link">cat: <a href="#section-Basics-Image">Basics/Image</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Transparency.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Transparency.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 28):</strong><pre><code class="language-cpp">image(img, 0, 0); // Display at full opacity
+    float dx = (mouseX - img-&gt;width / 2) - offset; //@diff(pointer)
+    offset += dx * easing;
+    //FIXME: error: ‘tint’ was not declared in this scope; did you mean ‘uint’?
+    // tint(255, 127); // Display at half opacity //unimplemented 
+    image(img, offset, 0);
+}</code></pre></div><div><strong>Unimplemented in application.cpp (line 29):</strong><pre><code class="language-cpp">float dx = (mouseX - img-&gt;width / 2) - offset; //@diff(pointer)
+    offset += dx * easing;
+    //FIXME: error: ‘tint’ was not declared in this scope; did you mean ‘uint’?
+    // tint(255, 127); // Display at half opacity //unimplemented 
+    image(img, offset, 0);
+}</code></pre></div></details></td></tr><tr><td>Words<div class="project-category-link">cat: <a href="#section-Basics-Typography">Basics/Typography</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Words.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Words.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 23):</strong><pre><code class="language-cpp">void setup() {
+    // Create the font
+    //   printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">void setup() {
+    // Create the font
+    //   printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);
+}</code></pre></div></details></td></tr><tr><td>XMLYahooWeather<div class="project-category-link">cat: <a href="#section-Topics-AdvancedData">Topics/AdvancedData</a></div></td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-XMLYahooWeather.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-XMLYahooWeather.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- loadXML() is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- loadXML() is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>saveOneImage<div class="project-category-link">cat: <a href="#section-Topics-File IO">Topics/File IO</a></div></td><td>🔗 Concat Failed</td><td><details><summary>Details (4)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- .tif is unimplemented though I don&#x27;t think it is needed</code></pre></div><div><strong>Unimplemented in application.cpp (line 33):</strong><pre><code class="language-cpp">}
+/*
+note:
+- .tif is unimplemented though I don&#x27;t think it is needed
+*/</code></pre></div><h4>Concatenation Issues</h4><p>**Concatenation Skipped in saveOneImage:**\n```\n2025-08-07 19:49:34,501 [WARNING] CONCAT_SKIP: Cannot concatenate &#x27;saveOneImage&#x27; - missing Processing output file(s)\n```</p><h4>General Log Issues</h4><p>**Warning in saveOneImage:**\n```\n2025-08-07 19:49:30,965 [WARNING] No Processing version found for &#x27;saveOneImage&#x27;, skipping Processing part\n```</p></details></td></tr></tbody>
+        </table>
+<h2 id="section-successful">✅ Successful Projects</h2><details open><summary><span id="section-Basics-Arrays">📂 Basics/Arrays</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Array</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Array.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Array.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Array2D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Array2D.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Array2D.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>ArrayObjects</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArrayObjects.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArrayObjects.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Camera">📂 Basics/Camera</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>MoveEye</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MoveEye.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MoveEye.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Orthographic</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Orthographic.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Orthographic.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- `pespective()` and `ortho()` disables the `lights()`.</code></pre></div><div><strong>FIXME in application.cpp (line 35):</strong><pre><code class="language-cpp">lights();
+    float far = map(mouseX, 0, width, 120, 400);
+    if (showPerspective == true) {
+        perspective(PI / 3.0, float(width) / float(height), 10, far); // FIXME: disables the light completely
+    } else {
+        ortho(-width / 2.0, width / 2.0, -height / 2.0, height / 2.0, 10, far); // FIXME: disables the light completely
+    }</code></pre></div><div><strong>FIXME in application.cpp (line 37):</strong><pre><code class="language-cpp">if (showPerspective == true) {
+        perspective(PI / 3.0, float(width) / float(height), 10, far); // FIXME: disables the light completely
+    } else {
+        ortho(-width / 2.0, width / 2.0, -height / 2.0, height / 2.0, 10, far); // FIXME: disables the light completely
+    }
+    translate(width / 2, height / 2, 0);
+    rotateX(-PI / 6);</code></pre></div></details></td></tr><tr><td>Perspective</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Perspective.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Perspective.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- `pespective()` and `ortho()` disables the `lights()`.</code></pre></div><div><strong>FIXME in application.cpp (line 42):</strong><pre><code class="language-cpp">float cameraZ = cameraY / tanf(fov / 2.f);
+
+
+    perspective(fov, aspect, cameraZ / 10.f, cameraZ * 10.f); // FIXME: this disables the light
+
+    translate(width / 2.f + 30.f, height / 2.f, 0.f);
+    rotateX(-PI / 6.f);</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Color">📂 Basics/Color</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Brightness</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Brightness.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Brightness.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>ColorVariables</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ColorVariables.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ColorVariables.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Hue</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Hue.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Hue.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LinearGradient</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LinearGradient.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LinearGradient.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>RadialGradient</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RadialGradient.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RadialGradient.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Relativity</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Relativity.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Relativity.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Saturation</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Saturation.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Saturation.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Control">📂 Basics/Control</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Conditionals1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Conditionals1.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Conditionals1.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Conditionals2</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Conditionals2.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Conditionals2.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>EmbeddedIteration</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedIteration.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedIteration.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Iteration</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Iteration.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Iteration.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LogicalOperators</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LogicalOperators.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LogicalOperators.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 43):</strong><pre><code class="language-cpp">// The expression &quot;if(test)&quot; is equivalent to &quot;if(test == true)&quot;
+        if (test) {
+            stroke(0.f); //@diff(color_range)
+            point(width / 3, i); // FIXME: THIS DOES NOT WORK
+        }
+
+        // Testing if a boolean value is &quot;false&quot;</code></pre></div><div><strong>FIXME in application.cpp (line 50):</strong><pre><code class="language-cpp">// The expression &quot;if(!test)&quot; is equivalent to &quot;if(test == false)&quot;
+        if (!test) {
+            stroke(1.f); //@diff(color_range)
+            point(width / 4, i); // FIXME: THIS DOES NOT WORK
+        }
+    }
+}</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Data">📂 Basics/Data</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>CharactersStrings</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CharactersStrings.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CharactersStrings.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 51):</strong><pre><code class="language-cpp">text(words, 50, 120); //@diff(text)
+}
+
+// FIXME: keyTyped() has no response(6.15.8-arch1-1)
+void keyTyped() {
+    // The variable &quot;key&quot; always contains the value
+    // of the most recent key pressed.</code></pre></div></details></td></tr><tr><td>DatatypeConversion</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DatatypeConversion.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DatatypeConversion.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>IntegersFloats</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IntegersFloats.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IntegersFloats.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>TrueFalse</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TrueFalse.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TrueFalse.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>VariableScope</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-VariableScope.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-VariableScope.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Variables</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Variables.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Variables.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Form">📂 Basics/Form</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Bezier</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Bezier.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Bezier.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>PieChart</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PieChart.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PieChart.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>PointsLines</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PointsLines.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PointsLines.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (6)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 41):</strong><pre><code class="language-cpp">// Draw white points
+    stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 42):</strong><pre><code class="language-cpp">// Draw white points
+    stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 43):</strong><pre><code class="language-cpp">stroke(1.f);
+    point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING</code></pre></div><div><strong>FIXME in application.cpp (line 44):</strong><pre><code class="language-cpp">point(p1, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div><div><strong>FIXME in application.cpp (line 45):</strong><pre><code class="language-cpp">point(p1, p3); //FIXME: DOES NOT DRAW ANYTHING
+    point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div><div><strong>FIXME in application.cpp (line 46):</strong><pre><code class="language-cpp">point(p2, p4); //FIXME: DOES NOT DRAW ANYTHING
+    point(p3, p1); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p2); //FIXME: DOES NOT DRAW ANYTHING
+    point(p4, p4); //FIXME: DOES NOT DRAW ANYTHING
+}</code></pre></div></details></td></tr><tr><td>Primitives3D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Primitives3D.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Primitives3D.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- lights() does not work here</code></pre></div></details></td></tr><tr><td>RegularPolygon</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RegularPolygon.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RegularPolygon.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>ShapePrimitives</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapePrimitives.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapePrimitives.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- triangle() and quad() can be 2D shapes,
+  so to have a override for 2D coordinates arguments(without z), or even with glm::vecN might be meaningful.</code></pre></div></details></td></tr><tr><td>Star</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Star.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Star.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>TriangleStrip</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TriangleStrip.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TriangleStrip.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Image">📂 Basics/Image</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Alphamask</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Alphamask.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Alphamask.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 22):</strong><pre><code class="language-cpp">void setup() {
+    img     = loadImage(&quot;moonwalk.jpg&quot;);
+    imgMask = loadImage(&quot;mask.jpg&quot;);
+    // img-&gt;mask(imgMask); //unimplemented
+    // imageMode(CENTER); //unimplemented
+    
+}</code></pre></div><div><strong>Unimplemented in application.cpp (line 23):</strong><pre><code class="language-cpp">img     = loadImage(&quot;moonwalk.jpg&quot;);
+    imgMask = loadImage(&quot;mask.jpg&quot;);
+    // img-&gt;mask(imgMask); //unimplemented
+    // imageMode(CENTER); //unimplemented
+    
+}</code></pre></div></details></td></tr><tr><td>BackgroundImage</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BackgroundImage.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BackgroundImage.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>CreateImage</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateImage.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateImage.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createImage() is not implemented.
+- couldn&#x27;t find any implementation to set the pixel format either. for pimage, nor pgraphics.</code></pre></div><div><strong>Unimplemented in application.cpp (line 18):</strong><pre><code class="language-cpp">}
+
+void setup() {
+//   img = createImage(230, 230, ARGB); // unimplemented
+    // size_t pix_length = img-&gt;width * img-&gt;height * img-&gt;channels; //@diff(pointer)
+    // for(int i = 0; i &lt; pix_length; i++) {
+    //     float a = map(i, 0, pix_length, 1.f, 0.f); //@diff(color_range)</code></pre></div></details></td></tr><tr><td>LoadDisplayImage</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadDisplayImage.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadDisplayImage.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Pointillism</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pointillism.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pointillism.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- i see a general conflict between the different color representations (eg. uint32_t vs. float)
+- i suggest either one of the following:
+    - use uint32_t for the `default` color representation, and everything that uses float should be a wrapper with a function suffixed `_f` that runs the uint32_t function internally.
+    - use float for the `default` color representation, and everything that uses uint32_t should be a wrapper with a function suffixed with `_i` that runs the float function internally.</code></pre></div></details></td></tr><tr><td>RequestImage</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RequestImage.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RequestImage.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 39):</strong><pre><code class="language-cpp">// Load images asynchronously
+    // for (int i = 0; i &lt; imgCount; i++) {
+    //     imgs[i] = requestImage(&quot;PT_anim&quot; + nf(i, 4) + &quot;.gif&quot;); // unimplemented
+    // }
+}</code></pre></div></details></td></tr><tr><td>Transparency</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Transparency.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Transparency.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 28):</strong><pre><code class="language-cpp">image(img, 0, 0); // Display at full opacity
+    float dx = (mouseX - img-&gt;width / 2) - offset; //@diff(pointer)
+    offset += dx * easing;
+    //FIXME: error: ‘tint’ was not declared in this scope; did you mean ‘uint’?
+    // tint(255, 127); // Display at half opacity //unimplemented 
+    image(img, offset, 0);
+}</code></pre></div><div><strong>Unimplemented in application.cpp (line 29):</strong><pre><code class="language-cpp">float dx = (mouseX - img-&gt;width / 2) - offset; //@diff(pointer)
+    offset += dx * easing;
+    //FIXME: error: ‘tint’ was not declared in this scope; did you mean ‘uint’?
+    // tint(255, 127); // Display at half opacity //unimplemented 
+    image(img, offset, 0);
+}</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Input">📂 Basics/Input</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Clock</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Clock.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Clock.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Constrain</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Constrain.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Constrain.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Easing</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Easing.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Easing.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Keyboard</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Keyboard.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Keyboard.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- drawing doesn&#x27;t work inside the keyPressed() 
+- i guess it is threaded and isn&#x27;t taken into the gl context
+- which is good, cuz the gl context shall live only in the main thread.
+- I might rewrite it to work with the main thread.</code></pre></div></details></td></tr><tr><td>KeyboardFunctions</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-KeyboardFunctions.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-KeyboardFunctions.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Milliseconds</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Milliseconds.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Milliseconds.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Mouse1D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mouse1D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mouse1D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Mouse2D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mouse2D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mouse2D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>MouseFunctions</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseFunctions.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseFunctions.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>MousePress</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MousePress.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MousePress.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>MouseSignals</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseSignals.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MouseSignals.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 54):</strong><pre><code class="language-cpp">for (int i = 1; i &lt; width; i++) {
+        // Draw the x-values
+        stroke(1.f); //@diff(color_range)
+        point(i, map(xvals[i], 0, width, 0, height / 3 - 1)); //FIXME: does not draw anything.
+
+        // Draw the y-values
+        stroke(0.f); //@diff(color_range)</code></pre></div><div><strong>FIXME in application.cpp (line 58):</strong><pre><code class="language-cpp">// Draw the y-values
+        stroke(0.f); //@diff(color_range)
+        point(i, height / 3 + yvals[i] / 3); //FIXME: does not draw anything.
+
+        // Draw the mouse presses
+        stroke(1.f); //@diff(color_range)</code></pre></div></details></td></tr><tr><td>StoringInput</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-StoringInput.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-StoringInput.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Lights">📂 Basics/Lights</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Directional</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Directional.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Directional.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    float dirY = (mouseY / float(height) - 0.5) * 2;
+    float dirX = (mouseX / float(width) - 0.5) * 2;
+//    directionalLight(.8f, .8f, .8f, -dirX, -dirY, -1.f); //FIXME: error: ‘directionalLight’ was not declared in this scope 
+    translate(width / 2 - 100, height / 2, 0);
+    sphere(80);
+    translate(200, 0, 0);</code></pre></div></details></td></tr><tr><td>Mixture</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mixture.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mixture.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 24):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    translate(width / 2, height / 2);
+
+    // FIXME: error: ‘pointLight’ was not declared in this scope
+    // Orange point light on the right
+    // pointLight(150, 100, 0,   // Color
+    //           200, -150, 0); // Position</code></pre></div><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">// pointLight(150, 100, 0,   // Color
+    //           200, -150, 0); // Position
+    
+    // FIXME: error: &#x27;directionalLight&#x27; was not declared in this scope
+    // Blue directional light from the left
+    // directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction</code></pre></div><div><strong>FIXME in application.cpp (line 34):</strong><pre><code class="language-cpp">// directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction
+
+    // FIXME: error: ‘spotLight’ was not declared in this scope
+    // spotLight(255, 255, 109, // Color
+    //          0, 40, 200,    // Position
+    //          0, -0.5, -0.5, // Direction</code></pre></div></details></td></tr><tr><td>MixtureGrid</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MixtureGrid.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MixtureGrid.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 41):</strong><pre><code class="language-cpp">}
+
+void defineLights() {
+    // FIXME: error: ‘pointLight’ was not declared in this scope
+    // Orange point light on the right
+    // pointLight(150, 100, 0,   // Color
+    //            200, -150, 0); // Position</code></pre></div><div><strong>FIXME in application.cpp (line 46):</strong><pre><code class="language-cpp">// pointLight(150, 100, 0,   // Color
+    //            200, -150, 0); // Position
+
+    // FIXME: error: &#x27;directionalLight&#x27; was not declared in this scope
+    // Blue directional light from the left
+    // directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction</code></pre></div><div><strong>FIXME in application.cpp (line 51):</strong><pre><code class="language-cpp">// directionalLight(0, 102, 255, // Color
+    //                  1, 0, 0);    // The x-, y-, z-axis direction
+
+    // FIXME: error: ‘spotLight’ was not declared in this scope
+    // spotLight(255, 255, 109, // Color
+    //           0, 40, 200,    // Position
+    //           0, -0.5, -0.5, // Direction</code></pre></div></details></td></tr><tr><td>OnOff</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OnOff.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OnOff.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Reflection</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reflection.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reflection.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 27):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+    translate(width / 2, height / 2);
+    // Set the specular color of lights that follow
+    // lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 28):</strong><pre><code class="language-cpp">translate(width / 2, height / 2);
+    // Set the specular color of lights that follow
+    // lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope
+    sphere(120);</code></pre></div><div><strong>FIXME in application.cpp (line 30):</strong><pre><code class="language-cpp">// lightSpecular(1, 1, 1); //FIXME: error: ‘lightSpecular’ was not declared in this scope
+    // directionalLight(0.8, 0.8, 0.8, 0, 0, -1); //FIXME: error: ‘directionalLight’ was not declared in this scope
+    float s = mouseX / float(width);
+    // specular(s, s, s); //FIXME: error: ‘specular’ was not declared in this scope
+    sphere(120);
+}</code></pre></div></details></td></tr><tr><td>Spot</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spot.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spot.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>FIXME in application.cpp (line 26):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Light the bottom of the sphere
+    // directionalLight(51, 102, 126, 0, -1, 0); //FIXME: error: ‘directionalLight’ was not declared in this scope
+
+    // Orange light on the upper-right of the sphere
+    // spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 29):</strong><pre><code class="language-cpp">// directionalLight(51, 102, 126, 0, -1, 0); //FIXME: error: ‘directionalLight’ was not declared in this scope
+
+    // Orange light on the upper-right of the sphere
+    // spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    // Moving spotlight that follows the mouse
+    // spotLight(102, 153, 204, 360, mouseY, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope</code></pre></div><div><strong>FIXME in application.cpp (line 32):</strong><pre><code class="language-cpp">// spotLight(204, 153, 0, 360, 160.f, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    // Moving spotlight that follows the mouse
+    // spotLight(102, 153, 204, 360, mouseY, 600, 0, 0, -1, PI / 2, 600); //FIXME: error: ‘spotLight’ was not declared in this scope
+
+    translate(width / 2, height / 2, 0);
+    sphere(120);</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Math">📂 Basics/Math</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>AdditiveWave</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-AdditiveWave.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-AdditiveWave.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Arctangent</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Arctangent.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Arctangent.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Distance1D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Distance1D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Distance1D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Distance2D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Distance2D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Distance2D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>DoubleRandom</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DoubleRandom.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DoubleRandom.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Graphing2DEquation</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Graphing2DEquation.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Graphing2DEquation.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>IncrementDecrement</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IncrementDecrement.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IncrementDecrement.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Interpolate</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Interpolate.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Interpolate.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Map</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Map.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Map.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Noise1D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise1D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise1D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Noise2D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise2D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise2D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 30):</strong><pre><code class="language-cpp">float xoff   = 0.0; // Start xoff at 0
+    float detail = map(mouseX, 0, width, 0.1, 0.6);
+    // noiseDetail(8, detail); //unimplemented
+
+
+    // For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value</code></pre></div></details></td></tr><tr><td>Noise3D</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise3D.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Noise3D.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>NoiseWave</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseWave.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseWave.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>OperatorPrecedence</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OperatorPrecedence.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-OperatorPrecedence.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the top comment is adjusted to align with c++</code></pre></div></details></td></tr><tr><td>PolarToCartesian</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PolarToCartesian.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PolarToCartesian.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Random</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Random.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Random.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>RandomGaussian</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RandomGaussian.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RandomGaussian.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>SineCosine</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SineCosine.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SineCosine.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>SineWave</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SineWave.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SineWave.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Objects">📂 Basics/Objects</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>CompositeObjects</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CompositeObjects.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CompositeObjects.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in Egg.h (line 41):</strong><pre><code class="language-cpp">scale(scalar);
+        beginShape();
+        vertex(0, -100);
+        // bezierVertex(25, -100, 40, -65, 40, -40); //unimplemented
+        // bezierVertex(40, -15, 25, 0, 0, 0);
+        // bezierVertex(-25, 0, -40, -15, -40, -40);
+        // bezierVertex(-40, -65, -25, -100, 0, -100);</code></pre></div></details></td></tr><tr><td>Inheritance</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Inheritance.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Inheritance.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>MultipleConstructors</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MultipleConstructors.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-MultipleConstructors.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Objects</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Objects.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Objects.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Shape">📂 Basics/Shape</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>DisableStyle</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DisableStyle.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DisableStyle.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 25):</strong><pre><code class="language-cpp">void setup() {
+    // The file &quot;bot1.svg&quot; must be in the data folder
+    // of the current sketch to load successfully
+    // bot = loadShape(&quot;bot1.svg&quot;); // unimplemented
+    noLoop();
+}</code></pre></div></details></td></tr><tr><td>GetChild</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GetChild.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GetChild.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Structure">📂 Basics/Structure</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Coordinates</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Coordinates.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Coordinates.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>CreateGraphics</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateGraphics.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CreateGraphics.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Functions</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Functions.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Functions.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Loop</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Loop.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Loop.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- redraw() behaves like loop() in this context</code></pre></div><div><strong>Unimplemented in application.cpp (line 36):</strong><pre><code class="language-cpp">}
+
+void mousePressed() {
+    // loop(); // unimplemented
+    redraw(); 
+}
+/*</code></pre></div></details></td></tr><tr><td>NoLoop</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoLoop.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoLoop.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Recursion</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Recursion.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Recursion.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Redraw</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Redraw.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Redraw.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- redraw behaves different than in processing.
+- processing::redraw() runs the draw() once,
+- but umfeld::redraw() disables the noLoop() and 
+  enables the loop again.</code></pre></div></details></td></tr><tr><td>SetupDraw</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SetupDraw.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SetupDraw.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>StatementsComments</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-StatementsComments.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-StatementsComments.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>WidthHeight</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-WidthHeight.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-WidthHeight.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Transform">📂 Basics/Transform</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Arm</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Arm.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Arm.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Rotate</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Rotate.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Rotate.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>RotatePushPop</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RotatePushPop.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RotatePushPop.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>RotateXY</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RotateXY.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RotateXY.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Scale</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Scale.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Scale.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Translate</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Translate.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Translate.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Typography">📂 Basics/Typography</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Letters</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Letters.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Letters.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 22):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Create the font
+    // printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SourceCodePro-Regular.ttf&quot;, 24);
+    f = loadFont(&quot;SourceCodePro-Regular.ttf&quot;, 24); //@diff(loadFont)
+    textFont(f);</code></pre></div></details></td></tr><tr><td>TextRotation</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TextRotation.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-TextRotation.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">= the text() is drawing the bounding box of the text.
+- compare the text() after calling noStroke()</code></pre></div><div><strong>Unimplemented in application.cpp (line 21):</strong><pre><code class="language-cpp">background(0.f); //@diff(color_range)
+
+    // Create the font from the .ttf file in the data folder
+    // f = createFont(&quot;SourceCodePro-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SourceCodePro-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);
+}</code></pre></div></details></td></tr><tr><td>Words</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Words.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Words.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 23):</strong><pre><code class="language-cpp">void setup() {
+    // Create the font
+    //   printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">void setup() {
+    // Create the font
+    //   printArray(PFont.list()); //unimplemented
+    // f = createFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //unimplemented
+    f = loadFont(&quot;SpaceMono-Regular.ttf&quot;, 18); //@diff(loadFont)
+    textFont(f);
+}</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Basics-Web">📂 Basics/Web</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>EmbeddedLinks</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedLinks.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EmbeddedLinks.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 38):</strong><pre><code class="language-cpp">void mousePressed() {
+    if (overButton) {
+        // link(&quot;https://github.com/dennisppaul/umfeld&quot;); //unimplemented
+    }
+}</code></pre></div></details></td></tr><tr><td>LoadingImages</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadingImages.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadingImages.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-AdvancedData">📂 Topics/AdvancedData</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>ArrayListClass</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArrayListClass.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArrayListClass.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>CountingStrings</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CountingStrings.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-CountingStrings.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>HashMapClass</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-HashMapClass.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-HashMapClass.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>IntListLottery</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IntListLottery.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-IntListLottery.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LoadSaveJSON</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveJSON.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveJSON.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 41):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A JSON object
+// JSONObject json; // unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>LoadSaveTable</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveTable.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveTable.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 26):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A Table object
+// Table table; //unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>LoadSaveXML</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveXML.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadSaveXML.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 34):</strong><pre><code class="language-cpp">// An Array of Bubble objects
+std::vector&lt;Bubble&gt; bubbles;
+// A Table object
+// XML xml; //unimplemented
+
+void loadData(); //@diff(forward_declaration)</code></pre></div></details></td></tr><tr><td>Regex</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Regex.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Regex.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Threads</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Threads.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Threads.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- thread is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 36):</strong><pre><code class="language-cpp">}
+/*
+note:
+- thread is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>XMLYahooWeather</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-XMLYahooWeather.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-XMLYahooWeather.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- loadXML() is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- loadXML() is unimplemented
+*/</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Animation">📂 Topics/Animation</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>AnimatedSprite</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-AnimatedSprite.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-AnimatedSprite.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Sequential</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Sequential.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Sequential.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Cellular Automata">📂 Topics/Cellular Automata</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>GameOfLife</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GameOfLife.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GameOfLife.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Spore1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the pixels array is not cleared. needs deeper inspection</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 24):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        pixels[int((int)width * y + x)] = c; //@diff(set() unimplemented)
+    }
+
+    uint32_t getpix(int x, int y) {</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 40):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        return pixels[int((int)width * y + x)]; //@diff(get() unimplemented)
+    }
+};</code></pre></div></details></td></tr><tr><td>Spore2</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Spore2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (3)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">inside the clearScreen(), the original examples used background() but this does not clear the pixel buffer in umfeld.</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 24):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        pixels[int((int)width * y + x)] = c; //@diff(set() unimplemented)
+    }
+
+    uint32_t getpix(int x, int y) {</code></pre></div><div><strong>Unimplemented in WorldCell.h (line 40):</strong><pre><code class="language-cpp">while (y &gt; height - 1) {
+            y -= height;
+        }
+        return pixels[int((int)width * y + x)]; //@diff(get() unimplemented)
+    }
+};</code></pre></div></details></td></tr><tr><td>Wolfram</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Wolfram.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Wolfram.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Create Shapes">📂 Topics/Create Shapes</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>BeginEndContour</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BeginEndContour.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BeginEndContour.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 10):</strong><pre><code class="language-cpp">using namespace umfeld;
+
+// PShape s; //unimplemented
+
+void settings() {
+    size(640, 360, RENDERER_OPENGL_3_3_CORE); //@diff(renderer)</code></pre></div></details></td></tr><tr><td>GroupPShape</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GroupPShape.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-GroupPShape.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createShape() is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- createShape() is unimplemented
+*/</code></pre></div></details></td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Curves">📂 Topics/Curves</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>ArcLengthParametrization</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArcLengthParametrization.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ArcLengthParametrization.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Drawing">📂 Topics/Drawing</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>ContinuousLines</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ContinuousLines.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ContinuousLines.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Pattern</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pattern.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pattern.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">same issue as the continuous_lines example,
+        see the note in the continuous_lines/application.cpp file</code></pre></div></details></td></tr><tr><td>Pulses</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pulses.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pulses.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-File IO">📂 Topics/File IO</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>DirectoryList</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DirectoryList.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-DirectoryList.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LoadFile1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LoadFile2</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LoadFile2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- segfaults happens when trying to load unsupported fonts like .vlw
+- might need to guard against unsupported font formats</code></pre></div></details></td></tr><tr><td>SaveFile1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SaveFile1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SaveFile1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>SaveFrames</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SaveFrames.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SaveFrames.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Fractals and L-Systems">📂 Topics/Fractals and L-Systems</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Koch</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Koch.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Koch.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Mandelbrot</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mandelbrot.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Mandelbrot.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>PenroseSnowflake</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PenroseSnowflake.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PenroseSnowflake.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Pentigree</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pentigree.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Pentigree.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Tree</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Tree.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Tree.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-GUI">📂 Topics/GUI</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Button</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Button.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Button.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Handles</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Handles.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Handles.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Rollover</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Rollover.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Rollover.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Scrollbar</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Scrollbar.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Scrollbar.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Geometry">📂 Topics/Geometry</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Icosahedra</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Icosahedra.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Icosahedra.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the lights() turns the shapes color into grey</code></pre></div></details></td></tr><tr><td>NoiseSphere</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseSphere.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-NoiseSphere.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- unimplemented functions:
+    - screenX(float x, float y, float z)
+    - screenY(float x, float y, float z)
+    - noiseDetail(int)</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- unimplemented functions:
+    - screenX(float x, float y, float z)
+    - screenY(float x, float y, float z)
+    - noiseDetail(int)</code></pre></div></details></td></tr><tr><td>RGBCube</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RGBCube.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-RGBCube.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>ShapeTransform</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapeTransform.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-ShapeTransform.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>SpaceJunk</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SpaceJunk.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-SpaceJunk.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Unimplemented in application.cpp (line 44):</strong><pre><code class="language-cpp">fill(.78f); //@diff(color_range)
+
+    // Set up some different colored lights
+    // pointLight(51, 102, 255, 65, 60, 100); //unimplemented
+    // pointLight(200, 40, 60, -65, -60, -150);
+
+    // Raise overall light in scene</code></pre></div><div><strong>Unimplemented in application.cpp (line 48):</strong><pre><code class="language-cpp">// pointLight(200, 40, 60, -65, -60, -150);
+
+    // Raise overall light in scene
+    // ambientLight(70, 70, 10); //unimplemented
+
+    // Center geometry in display windwow.
+    // you can changlee 3rd argument (&#x27;0&#x27;)</code></pre></div></details></td></tr><tr><td>Toroid</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Toroid.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Toroid.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Vertices</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Vertices.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Vertices.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Image Processing">📂 Topics/Image Processing</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Blending</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blending.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blending.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- blenMode is unimplemented</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- blenMode is unimplemented
+*/</code></pre></div></details></td></tr><tr><td>Blur</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blur.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Blur.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>BrightnessPixels</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BrightnessPixels.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-BrightnessPixels.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Convolution</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Convolution.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Convolution.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>EdgeDetection</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EdgeDetection.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-EdgeDetection.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (4)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div><div><strong>Unimplemented in application.cpp (line 25):</strong><pre><code class="language-cpp">/*
+note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div><div><strong>Unimplemented in application.cpp (line 26):</strong><pre><code class="language-cpp">note:
+- createImage() is unimplemented.
+- filter(GREY) is unimplemented.
+- *.updatePixels() is unimplemented.
+*/</code></pre></div></details></td></tr><tr><td>Explode</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Explode.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Explode.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Extrusion</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Extrusion.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Extrusion.png" alt="Preview"></div>
+</div>
+</td><td><details><summary>Details (2)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- *.loadPixels() is unimplemented.</code></pre></div><div><strong>Unimplemented in application.cpp (line 24):</strong><pre><code class="language-cpp">}
+/*
+note:
+- *.loadPixels() is unimplemented.
+*/</code></pre></div></details></td></tr><tr><td>Histogram</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Histogram.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Histogram.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>LinearImage</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LinearImage.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-LinearImage.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>PixelArray</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PixelArray.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-PixelArray.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Sharpen</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Sharpen.png', 'image'); return false;">View</a>
+    <div class="tooltip-content"><img src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Sharpen.png" alt="Preview"></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Zoom</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Zoom.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Zoom.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details><details open><summary><span id="section-Topics-Interaction">📂 Topics/Interaction</span></summary>
+        <table>
+            <thead><tr><th>Project</th><th>Comparison</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Follow1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Follow2</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Follow3</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow3.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Follow3.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Reach1</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach1.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach1.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr><tr><td>Reach2</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach2.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach2.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- the default stroke cap is angular/rectangle
+- strokeCap() is implemented but the enum ROUND exist only for strokeJoint?
+- the ROUND enum doesn&#x27;t exist in the StrokeCap enum in UmfeldConstants.h 
+- trying to add it causes naming conflict. maybe better to use namespace to scope them better, e.g STROKECAP::ROUND, STROKEJOINT::ROUND
+- scoping also might help in some other places in umfeld, internally and externally.
+- imho, the global naming conflict wont reslove otherwise
+- also, the stroke render mode STROKE_RENDER_MODE_BARYCENTRIC_SHADER doesn&#x27;t process the stroke caps.
+- instead, the STROKE_RENDER_MODE_TRIANGULATE_2D shall be used.</code></pre></div></details></td></tr><tr><td>Reach3</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach3.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Reach3.mp4" autoplay muted loop></video></div>
+</div>
+</td><td><details><summary>Details (1)</summary><h4>Source Code Issues</h4><div><strong>Note from application.cpp:</strong><pre><code class="">- I see the stroke triangulation of the RENDER_MODE_BUFFERED is not implemented yet. (inside src/PGraphicsOpenGL_3_3_core.cpp)
+- this example, then, might not be ready yet.</code></pre></div></details></td></tr><tr><td>Tickle</td><td>
+<div class="tooltip">
+    <a href="#" onclick="openModal('/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Tickle.mp4', 'video'); return false;">View</a>
+    <div class="tooltip-content"><video src="/home/choiharam/works/umfeld/umfeld-examples-fork/vrtest/comparison/comparison-Tickle.mp4" autoplay muted loop></video></div>
+</div>
+</td><td>✔️</td></tr></tbody>
+        </table>
+</details></div>
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-content-container"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script>
+        var modal = document.getElementById('myModal');
+        var modalContentContainer = document.getElementById('modal-content-container');
+
+        function openModal(src, type) {
+            modalContentContainer.innerHTML = '';
+            var element = type === 'image' ? document.createElement('img') : document.createElement('video');
+            element.src = src;
+            element.className = 'modal-content';
+            if (type === 'video') {
+                element.controls = true;
+                element.autoplay = true;
+            }
+            modalContentContainer.appendChild(element);
+            modal.style.display = "block";
+            Prism.highlightAll(); // Highlight code in modal
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+            modalContentContainer.innerHTML = '';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) closeModal();
+        }
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") closeModal();
+        });
+
+        // Initial highlighting for content not in modal
+        document.addEventListener('DOMContentLoaded', (event) => {
+            Prism.highlightAll();
+        });
+    </script>
+</body>
+</html>

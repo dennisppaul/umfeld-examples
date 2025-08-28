@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.12)
 
+<<<<<<<< HEAD:Audio/threaded/CMakeLists.txt
 project(threaded)                                              # set application name
 set(UMFELD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../umfeld") # set path to umfeld library
+========
+project(array_2d)                                 # set application name
+set(UMFELD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../../../umfeld") # set path to umfeld library
+>>>>>>>> 89ad73b (add: processing examples):Processing/Basics/Arrays/array_2d/CMakeLists.txt
 
 # --------- no need to change anything below this line ------------
 

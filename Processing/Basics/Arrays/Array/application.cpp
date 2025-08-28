@@ -21,7 +21,7 @@ void settings() {
 }
 
 void setup() {
-    coswave = new float[width];
+    coswave = new float[(int)width];
     for (int i = 0; i < width; i++) {
         float amount = map(i, 0, width, 0, PI);
         coswave[i]   = abs(cos(amount));
