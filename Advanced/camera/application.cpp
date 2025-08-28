@@ -25,7 +25,6 @@ void draw() {
     fill(0);
     debug_text("FPS   : " + nf(frameRate, 1), 10, 10);
 
-    flush();
     camera();
 
     noFill();
@@ -37,14 +36,12 @@ void draw() {
 
     constexpr float fov            = DEFAULT_CAMERA_FOV_RADIANS;
     const float     cameraDistance = (height / 2.0f) / tan(fov / 2.0f);
-
-    flush();
     camera(width / 2.0, height / 2.0 - 200, cameraDistance,
            mouseX, mouseY, 0,
            0, 1, 0);
 
     fill(1, 0.25, 0.35);
-    noStroke();
+    stroke(0);
     for (int x = -20; x < 20; ++x) {
         for (int y = -20; y < 20; ++y) {
             pushMatrix();
