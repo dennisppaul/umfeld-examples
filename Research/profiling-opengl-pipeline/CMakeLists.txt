@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 project(profiling-opengl-pipeline)                             # set application name
 set(UMFELD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../umfeld") # set path to umfeld library
-#set(UMFELD_OPENGL_VERSION "OPENGL_3_3_CORE")
-set(UMFELD_OPENGL_VERSION "OPENGL_ES_3_0")
-set(ENABLE_ANGLE ON)
+set(UMFELD_OPENGL_VERSION "OPENGL_3_3_CORE")
+#set(UMFELD_OPENGL_VERSION "OPENGL_ES_3_0")
+#set(ENABLE_ANGLE ON)
 
 # --------- no need to change anything below this line ------------
 

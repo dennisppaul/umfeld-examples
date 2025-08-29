@@ -14,14 +14,15 @@ VertexBuffer* mesh_shape;
 
 void settings() {
     size(1024, 768);
-    render_to_buffer = true;
+    // render_to_buffer = true;
+    antialiasing = 4;
 }
 
 void setup() {
     strokeJoin(stroke_join_mode);
     strokeCap(stroke_cap_mode);
 
-    // hint(ENABLE_SMOOTH_LINES);
+    hint(ENABLE_SMOOTH_LINES);
     g->stroke_properties(radians(10), radians(10), 179);
 
     umfeld_image = loadImage("umfeld.png");
@@ -36,6 +37,7 @@ void setup() {
 
     g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+    g->set_stroke_render_mode(STROKE_RENDER_MODE_LINE_SHADER);
 
     g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
     g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
@@ -59,19 +61,19 @@ void draw() {
 
     background(0.85f);
 
-    constexpr bool ENABLE_DEBUG_TEXT         = true;
-    constexpr bool ENABLE_CIRCLE_STROKE_FILL = true;
-    constexpr bool ENABLE_CIRCLE_FILL        = true;
-    constexpr bool ENABLE_CIRCLE_STROKE      = true;
-    constexpr bool ENABLE_POLYGON            = true;
-    constexpr bool ENABLE_POINTS             = true;
-    constexpr bool ENABLE_LINE               = true;
-    constexpr bool ENABLE_IMAGE              = true;
-    constexpr bool ENABLE_LIGHT_SHAPES       = true;
-    constexpr bool ENABLE_MESH               = true;
-    constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
+    constexpr bool ENABLE_DEBUG_TEXT         = false;
+    constexpr bool ENABLE_CIRCLE_STROKE_FILL = false;
+    constexpr bool ENABLE_CIRCLE_FILL        = false;
+    constexpr bool ENABLE_CIRCLE_STROKE      = false;
+    constexpr bool ENABLE_POLYGON            = false;
+    constexpr bool ENABLE_POINTS             = false;
+    constexpr bool ENABLE_LINE               = false;
+    constexpr bool ENABLE_IMAGE              = false;
+    constexpr bool ENABLE_LIGHT_SHAPES       = false;
+    constexpr bool ENABLE_MESH               = false;
+    constexpr bool ENABLE_TRANSPARENT_SHAPES = false;
     constexpr bool ENABLE_LINE_SHAPES        = true;
-    constexpr bool ENABLE_FINAL_FLUSH        = true;
+    constexpr bool ENABLE_FINAL_FLUSH        = false;
 
     if constexpr (ENABLE_DEBUG_TEXT) {
         TRACE_SCOPE_N("DEBUG_TEXT");
@@ -250,35 +252,50 @@ void draw() {
         pushMatrix();
         translate(width / 2, height / 2);
         rotate(frameCount * 0.00137f);
-        beginShape(TRIANGLE_FAN);
-        vertex(0, 0);
-        constexpr int N = 100;
+        beginShape(LINE_STRIP);
+        constexpr int N = 36;
         const float   R = height * 0.45f;
-        for (int i = 0; i < N + 1; i++) {
+        for (int i = 0; i < N; i++) {
             const float x = sin(i * TWO_PI / N) * R;
             const float y = cos(i * TWO_PI / N) * R;
             vertex(x, y);
         }
-        endShape(CLOSE);
+        endShape(close_shape);
+        popMatrix();
+
+        noFill();
+        stroke(1, 0, 0);
+        pushMatrix();
+        translate(width / 2, height / 2);
+        rotate(frameCount * 0.00137f);
+        // square(-50,-50,100);
+        strokeWeight(16);
+        scale(map(mouseY, 0, height, 20, 100));
+        beginShape(POLYGON);
+        vertex(-1, -1);
+        vertex(1, -1);
+        vertex(1, 1);
+        vertex(-1, 1);
+        endShape(close_shape);
         popMatrix();
     }
-    if constexpr (ENABLE_FINAL_FLUSH) {
+    if (ENABLE_FINAL_FLUSH) {
         TRACE_SCOPE_N("FLUSH");
         flush();
     }
 }
 
-void mousePressed() {
-    static bool toggle = false;
-    if (toggle) {
-        g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
-        g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
-    } else {
-        g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
-        g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
-    }
-    toggle = !toggle;
-}
+// void mousePressed() {
+//     static bool toggle = false;
+//     if (toggle) {
+//         g->set_point_render_mode(POINT_RENDER_MODE_NATIVE);
+//         g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
+//     } else {
+//         g->set_point_render_mode(POINT_RENDER_MODE_TRIANGULATE);
+//         g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
+//     }
+//     toggle = !toggle;
+// }
 
 void keyPressed() {
     if (key == '-') {
