@@ -10,13 +10,12 @@
 using namespace umfeld;
 
 void settings() {
-    size(1024, 768);
+    size(1024, 768, P3D);
 }
 
 void setup() {
     strokeWeight(3);
     rectMode(CENTER);
-    profile(PROFILE_3D);
 }
 
 void draw() {
