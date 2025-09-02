@@ -13,7 +13,7 @@ PImage*       point_image;
 VertexBuffer* mesh_shape;
 
 void settings() {
-    size(1024, 768);
+    size(1024, 768, P3D);
     // render_to_buffer = true;
     antialiasing = 4;
 }
@@ -23,6 +23,7 @@ void setup() {
     strokeCap(stroke_cap_mode);
 
     hint(ENABLE_SMOOTH_LINES);
+    hint(ENABLE_DEPTH_TEST); // NOTE 3D shapes might benifit from this
     g->stroke_properties(radians(10), radians(10), 179);
 
     umfeld_image = loadImage("umfeld.png");
@@ -32,8 +33,8 @@ void setup() {
     //      set_render_mode()
     //      hint(DISABLE_DEPTH_TEST); // add this as a reasonable default
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
-    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
+    g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
 
     g->set_stroke_render_mode(STROKE_RENDER_MODE_NATIVE);
     g->set_stroke_render_mode(STROKE_RENDER_MODE_TRIANGULATE_2D);
@@ -46,6 +47,8 @@ void setup() {
     mesh_shape                         = new VertexBuffer();
     mesh_shape->set_transparent(false);
     mesh_shape->add_vertices(vertices);
+
+    blendMode(BLEND);
 }
 
 void draw() {
@@ -68,10 +71,10 @@ void draw() {
     constexpr bool ENABLE_POLYGON            = false;
     constexpr bool ENABLE_POINTS             = false;
     constexpr bool ENABLE_LINE               = false;
-    constexpr bool ENABLE_IMAGE              = false;
-    constexpr bool ENABLE_LIGHT_SHAPES       = false;
-    constexpr bool ENABLE_MESH               = false;
-    constexpr bool ENABLE_TRANSPARENT_SHAPES = false;
+    constexpr bool ENABLE_IMAGE              = true;
+    constexpr bool ENABLE_LIGHT_SHAPES       = true;
+    constexpr bool ENABLE_MESH               = true;
+    constexpr bool ENABLE_TRANSPARENT_SHAPES = true;
     constexpr bool ENABLE_LINE_SHAPES        = true;
     constexpr bool ENABLE_FINAL_FLUSH        = false;
 
@@ -253,7 +256,7 @@ void draw() {
         translate(width / 2, height / 2);
         rotate(frameCount * 0.00137f);
         beginShape(LINE_STRIP);
-        constexpr int N = 36;
+        constexpr int N = 18;
         const float   R = height * 0.45f;
         for (int i = 0; i < N; i++) {
             const float x = sin(i * TWO_PI / N) * R;
@@ -264,17 +267,19 @@ void draw() {
         popMatrix();
 
         noFill();
-        stroke(1, 0, 0);
+        stroke(1, 0, 0, 0.5);
         pushMatrix();
         translate(width / 2, height / 2);
-        rotate(frameCount * 0.00137f);
+        rotateX(frameCount * 0.00137f);
+        rotateY(frameCount * 0.0173f);
         // square(-50,-50,100);
-        strokeWeight(16);
+        strokeWeight(32 * g->displayDensity()); // TODO pixel density affects stroke weight when using line shader
         scale(map(mouseY, 0, height, 20, 100));
         beginShape(POLYGON);
         vertex(-1, -1);
         vertex(1, -1);
         vertex(1, 1);
+        stroke(0);
         vertex(-1, 1);
         endShape(close_shape);
         popMatrix();
@@ -382,13 +387,13 @@ void keyPressed() {
         if (g == nullptr) {
             return;
         }
-        static bool render_mode_toggle = false;
+        static bool render_mode_toggle = true;
         render_mode_toggle             = !render_mode_toggle;
         if (render_mode_toggle) {
-            console(format_label("render_mode"), "RENDER_MODE_SORTED_BY_SUBMISSION_ORDER");
+            console(format_label("app switched render_mode"), "RENDER_MODE_SORTED_BY_SUBMISSION_ORDER");
             g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);
         } else {
-            console(format_label("render_mode"), "RENDER_MODE_SORTED_BY_Z_ORDER");
+            console(format_label("app switched render_mode"), "RENDER_MODE_SORTED_BY_Z_ORDER");
             g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
         }
     }
