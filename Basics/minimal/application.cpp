@@ -3,6 +3,12 @@
 using namespace umfeld;
 
 void settings() {
+    warning("using default 'settings()'");
+    size(1024, 768);
+}
+
+void custom_settings() {
+    warning("using 'custom_settings()'");
     size(1024, 768);
 }
 
@@ -18,4 +24,8 @@ void draw() {
     const float y    = height / 2.0f;
     line(x - size, y - size, x + size, y + size);
     line(x - size, y + size, x + size, y - size);
+}
+
+void umfeld_set_callbacks() {
+    callback_settings_set(custom_settings);
 }
