@@ -27,5 +27,5 @@ void draw() {
 }
 
 void umfeld_set_callbacks() {
-    callback_settings_set(custom_settings);
+    set_settings_callback(custom_settings);
 }
