@@ -21,7 +21,6 @@ void setup() {
     //      gt->simple_clear = false;
     // NOTE adjust debounce interval to prevent key released events from firing prematurely:
     //      umfeld::subsystem::graphics_terminal::set_debounce_interval(5);
-    umfeld::subsystem::graphics_terminal::set_debounce_interval(5);
 }
 
 bool keyPressedCallback = false;
