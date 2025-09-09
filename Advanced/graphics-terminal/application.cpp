@@ -19,7 +19,13 @@ void setup() {
     //      PGraphicsTerminal* gt = (PGraphicsTerminal*)g;
     //      gt->auto_refresh(true);
     //      gt->simple_clear = false;
+    // NOTE adjust debounce interval to prevent key released events from firing prematurely:
+    //      umfeld::subsystem::graphics_terminal::set_debounce_interval(5);
+    umfeld::subsystem::graphics_terminal::set_debounce_interval(5);
 }
+
+bool keyPressedCallback = false;
+int  keyReleasedCounter = 0;
 
 void draw() {
     background(0.2f);
@@ -34,9 +40,27 @@ void draw() {
     text(to_string("size: ", width, "x", height), 0, 0);
     text(to_string("mouse: ", mouseX, "x", mouseY), mouseX, mouseY);
     text(to_string("image: ", umfeld_image->width, "x", umfeld_image->height), mouseX, mouseY + 1);
+
     fill(1.0f, 0.25f, 0.35f);
     image(umfeld_image, mouseX, mouseY + 2, 32, 16);
 
     stroke(1.0f, 1.0f, 1.0f);
     rect(mouseX, mouseY + 2, 32, 16);
+
+    fill(1.0f);
+    text(to_string(
+             "key: ", key,
+             " :: ", (isKeyPressed ? "P" : "R"),
+             " :: ", (keyPressedCallback ? "P" : "R"),
+             " :: ", keyReleasedCounter),
+         0, 1);
+}
+
+void keyPressed() {
+    keyPressedCallback = true;
+}
+
+void keyReleased() {
+    keyPressedCallback = false;
+    keyReleasedCounter++;
 }
