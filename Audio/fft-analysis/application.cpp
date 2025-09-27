@@ -14,13 +14,13 @@ std::vector<std::pair<float, float>> spectrum;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2);
+    audio(0, 2, 48000);
 }
 
 void setup() {
-    fft_start(audio_buffer_size, audio_sample_rate);
+    fft_start(audio_buffer_size, 48000);
 
-    wavetable_oscillator = new Wavetable(1024, audio_sample_rate);
+    wavetable_oscillator = new Wavetable(1024, 48000);
     wavetable_oscillator->set_waveform(WAVEFORM_SINE);
     wavetable_oscillator->set_frequency(220.0f);
     wavetable_oscillator->set_amplitude(0.7f);

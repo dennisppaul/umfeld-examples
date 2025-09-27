@@ -14,7 +14,7 @@ LowPassFilter* filter;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2);
+    audio(0, 2, 48000);
     // subsystem_audio = umfeld_create_subsystem_audio_sdl();
     // subsystem_audio = umfeld_create_subsystem_audio_portaudio();
 }
@@ -24,7 +24,7 @@ void setup() {
     // sampler->resample(48000, 48000 * 2);
 
     const float sampler_sample_rate = sampler->get_sample_rate();
-    filter                          = new LowPassFilter(sampler_sample_rate);
+    filter                          = new LowPassFilter(48000);
 
     sampler->set_looping();
     sampler->play();

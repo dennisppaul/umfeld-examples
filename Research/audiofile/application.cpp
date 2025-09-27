@@ -145,7 +145,7 @@ void audioEvent(const PAudio& device) {
             device.output_buffer[i] = random(-0.1, 0.1);
         }
     }
-    if (&device == a) {
+    if (&device == audio_device) {
         float wav_sample_buffer[audio_buffer_size];
         read_wav(wav_sample_buffer, audio_buffer_size);
 

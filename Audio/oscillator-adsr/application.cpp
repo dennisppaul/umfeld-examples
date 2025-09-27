@@ -10,19 +10,19 @@
 
 using namespace umfeld;
 
-ADSR*         adsr;
-Reverb*       reverb;
-Wavetable*    wavetable_oscillator;
+ADSR*      adsr;
+Reverb*    reverb;
+Wavetable* wavetable_oscillator;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2);
+    audio(0, 2, 48000.0f);
 }
 
 void setup() {
-    adsr                 = new ADSR(audio_sample_rate);
+    adsr                 = new ADSR(48000.0f);
     reverb               = new Reverb();
-    wavetable_oscillator = new Wavetable(1024, audio_sample_rate);
+    wavetable_oscillator = new Wavetable(1024, 48000.0f);
 
     wavetable_oscillator->set_waveform(WAVEFORM_TRIANGLE);
     wavetable_oscillator->set_frequency(220.0f);
@@ -56,15 +56,15 @@ void keyReleased() {
     }
 }
 
-void audioEvent() {
-    float sample_buffer[audio_buffer_size];
-    for (int i = 0; i < audio_buffer_size; i++) {
+void audioEvent(const PAudio& audio) {
+    float sample_buffer[audio.buffer_size];
+    for (int i = 0; i < audio.buffer_size; i++) {
         float osc        = wavetable_oscillator->process();
         osc              = adsr->process(osc);
         osc              = reverb->process(osc);
         sample_buffer[i] = osc;
     }
-    merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
 }
 
 void shutdown() {
