@@ -59,10 +59,10 @@ void keyReleased() {
 void audioEvent(const PAudio& audio) {
     float sample_buffer[audio.buffer_size];
     for (int i = 0; i < audio.buffer_size; i++) {
-        float osc        = wavetable_oscillator->process();
-        osc              = adsr->process(osc);
-        osc              = reverb->process(osc);
-        sample_buffer[i] = osc;
+        float sample     = wavetable_oscillator->process();
+        sample           = adsr->process(sample);
+        sample           = reverb->process(sample);
+        sample_buffer[i] = sample;
     }
     merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
 }
