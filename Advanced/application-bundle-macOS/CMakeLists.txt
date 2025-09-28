@@ -19,11 +19,11 @@ add_umfeld_libs()
 
 find_program(DYLIBBUNDLER_EXECUTABLE
         NAMES dylibbundler
-        DOC "Path to dylibbundler (used to bundle macOS dylibs)"
+        DOC "Path to 'dylibbundler' (used to bundle macOS dylibs)"
 )
 
 if(NOT DYLIBBUNDLER_EXECUTABLE)
-    message(WARNING "dylibbundler not found. The app will build, but dependent dylibs will NOT be bundled. "
+    message(WARNING "'dylibbundler' not found. The app will build, but dependent dylibs will NOT be bundled. "
             "Install it (e.g 'brew install dylibbundler') or set DYLIBBUNDLER_EXECUTABLE to its path.")
 endif()
 
@@ -32,7 +32,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
         INSTALL_RPATH "@executable_path/../libs/"
 )
 
-# bundle data // TODO move to 'data'
+# bundle data files
 # install(FILES "${PROJECT_SOURCE_DIR}/RobotoMono-Regular.ttf" DESTINATION "../Resources/data/") # include single resources files or ...
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/data/ DESTINATION "../Resources/data/")     # ... entire directories
 
