@@ -15,17 +15,32 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 add_subdirectory(${UMFELD_PATH} ${CMAKE_BINARY_DIR}/umfeld-lib-${PROJECT_NAME})
 add_umfeld_libs()
 
-# --------- make application bundle ----------------------------
+# --------- application bundle ---------------------------------
 
-# bundle assets // TODO move to 'data'
-# install(FILES "${PROJECT_SOURCE_DIR}/RobotoMono-Regular.ttf" DESTINATION "../")   # include single resources files or ...
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION "../assets")              # ... entire directories
+find_program(DYLIBBUNDLER_EXECUTABLE
+        NAMES dylibbundler
+        DOC "Path to dylibbundler (used to bundle macOS dylibs)"
+)
+
+if(NOT DYLIBBUNDLER_EXECUTABLE)
+    message(WARNING "dylibbundler not found. The app will build, but dependent dylibs will NOT be bundled. "
+            "Install it (e.g 'brew install dylibbundler') or set DYLIBBUNDLER_EXECUTABLE to its path.")
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        BUILD_WITH_INSTALL_RPATH ON
+        INSTALL_RPATH "@executable_path/../libs/"
+)
+
+# bundle data // TODO move to 'data'
+# install(FILES "${PROJECT_SOURCE_DIR}/RobotoMono-Regular.ttf" DESTINATION "../Resources/data/") # include single resources files or ...
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/data/ DESTINATION "../Resources/data/")     # ... entire directories
 
 # bundle dynamic libraries
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E echo "Bundling dynamic libraries using dylibbundler..."
-    COMMAND dylibbundler -od -b -x $<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME} -d $<TARGET_FILE_DIR:${PROJECT_NAME}>/../libs/
-    COMMENT ${CMAKE_COMMAND} -E echo "Dynamic libraries are bundled."
+        COMMAND ${CMAKE_COMMAND} -E echo "Bundling dynamic libraries using dylibbundler..."
+        COMMAND dylibbundler -od -b -x $<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME} -d $<TARGET_FILE_DIR:${PROJECT_NAME}>/../libs/
+        COMMAND ${CMAKE_COMMAND} -E echo "Dynamic libraries are bundled."
 )
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/libs/ DESTINATION "../libs")
 

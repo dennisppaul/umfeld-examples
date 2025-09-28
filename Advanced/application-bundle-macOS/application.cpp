@@ -14,12 +14,12 @@ void settings() {
 }
 
 void setup() {
-    if (!file_exists(sketchPath() + "../assets/RobotoMono-Regular.ttf")) {
-        println("cannot find required files at:", sketchPath());
+    if (!resource_file_exists("RobotoMono-Regular.ttf")) {
+        println("cannot find required files at: ", sketchPath());
         println("... exiting");
         exit();
     }
-    mFont = loadFont(sketchPath() + "../assets/RobotoMono-Regular.ttf", 48);
+    mFont = loadFont("RobotoMono-Regular.ttf", 48);
     textFont(mFont);
 }
 
