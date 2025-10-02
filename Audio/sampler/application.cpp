@@ -14,7 +14,7 @@ LowPassFilter* filter;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2, 48000);
+    audio();
     // subsystem_audio = umfeld_create_subsystem_audio_sdl();
     // subsystem_audio = umfeld_create_subsystem_audio_portaudio();
 }
@@ -64,7 +64,9 @@ void audioEvent() {
         sample           = filter->process(sample);
         sample_buffer[i] = sample;
     }
-    merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    if (audio_output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    }
 }
 
 void shutdown() {
