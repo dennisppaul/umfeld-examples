@@ -5,7 +5,12 @@ using namespace umfeld;
 PImage* umfeld_image;
 
 void settings() {
-    size(1024, 768);
+    // size(1024, 768);
+    size(640, 480);
+    antialiasing         = false;
+    depth_buffer_depth   = 16;
+    stencil_buffer_depth = 0;
+    double_buffered      = true;
 }
 
 void setup() {
@@ -37,11 +42,4 @@ void draw() {
 
     fill(1.0f);
     image(umfeld_image, mouseX, mouseY);
-}
-
-void keyPressed() {
-    if (key == 'q') {
-        //request_shutdown = true;
-        exit();
-    }
 }
