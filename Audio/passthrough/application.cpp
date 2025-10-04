@@ -14,19 +14,30 @@ void settings() {
     audio(1, 2);
 }
 
-void setup() {}
+void setup() {
+    if (get_audio_output_channels() != 2) {
+        println("this example requires a stereo output");
+        exit();
+    }
+}
 
 void draw() {
     background(0.85f);
     noFill();
     stroke(1.0f, 0.25f, 0.35f);
-    circle(width * 0.5f, height * 0.5f, energy * 0.5f * height + 0.5f * height);
+    circle(width * 0.5f, height * 0.5f, energy * 0.5f * height + 0.25f * height);
 }
 
-// NOTE prefer this over `audioEvent()`
 void audioEvent(const PAudio& audio) {
+    float sample_buffer[audio.buffer_size];
+    energy = 0.0f;
     for (uint32_t i = 0; i < audio.buffer_size; ++i) {
-        audio.output_buffer[i] = audio.input_buffer[i];
+        sample_buffer[i] = audio.input_buffer[i];
+        energy += abs(sample_buffer[i]);
+    }
+    energy /= audio.buffer_size;
+    if (audio.output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
     }
     // mix_mono_to_stereo(src_sample_buffer, audio); // NOTE mix mono sample buffer to audio’s stereo output ( assumes audio.output_channels == 2 and evaluates audio.is_interleaved )
     // mix_mono_to_stereo(src_sample_buffer,         // NOTE mix mono input to stereo output ( evaluates interleaved state )
@@ -42,16 +53,6 @@ void audioEvent(const PAudio& audio) {
     //                          sample_buffer_right,
     //                          dst_buffer_stereo,
     //                          buffer_size);
-}
-
-void audioEvent() {
-    for (uint32_t i = 0; i < audio_device->buffer_size; ++i) {
-        audio_device->output_buffer[i] = audio_device->input_buffer[i];
-    }
-    for (uint32_t i = 0; i < audio_buffer_size; ++i) {
-        audio_output_buffer[i] = audio_input_buffer[i];
-    }
-    // merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
 }
 
 void shutdown() {}

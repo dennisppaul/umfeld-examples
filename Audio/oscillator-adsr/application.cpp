@@ -16,13 +16,13 @@ Wavetable* wavetable_oscillator;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2, 48000.0f);
+    audio();
 }
 
 void setup() {
-    adsr                 = new ADSR(48000.0f);
+    adsr                 = new ADSR(get_audio_sample_rate());
     reverb               = new Reverb();
-    wavetable_oscillator = new Wavetable(1024, 48000.0f);
+    wavetable_oscillator = new Wavetable(1024, get_audio_sample_rate());
 
     wavetable_oscillator->set_waveform(WAVEFORM_TRIANGLE);
     wavetable_oscillator->set_frequency(220.0f);
@@ -64,7 +64,9 @@ void audioEvent(const PAudio& audio) {
         sample           = reverb->process(sample);
         sample_buffer[i] = sample;
     }
-    merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
+    if (audio.output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
+    }
 }
 
 void shutdown() {

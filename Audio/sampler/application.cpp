@@ -15,30 +15,35 @@ LowPassFilter* filter;
 void settings() {
     size(1024, 768);
     audio();
-    // subsystem_audio = umfeld_create_subsystem_audio_sdl();
-    // subsystem_audio = umfeld_create_subsystem_audio_portaudio();
 }
 
 void setup() {
     sampler = loadSample("teilchen.wav");
-    // sampler->resample(48000, 48000 * 2);
-
-    const float sampler_sample_rate = sampler->get_sample_rate();
-    filter                          = new LowPassFilter(48000);
-
+    // resample sample to double the sample rate i.e the amount of samples per second
+    // const float sampler_sample_rate = sampler->get_sample_rate();
+    // sampler->resample(sampler_sample_rate, sampler_sample_rate * 2);
     sampler->set_looping();
     sampler->play();
+
+    filter = new LowPassFilter(get_audio_sample_rate());
+
+    if (get_audio_output_channels() != 2) {
+        error("this example requires a stereo output");
+        exit(1);
+    }
 }
 
 void draw() {
     background(0.85f);
-    noFill();
-    stroke(1.0f, 0.25f, 0.35f);
-    const float size = 50.0f;
+
+    const float size = height / 2.0f;
     const float x    = width / 2.0f;
     const float y    = height / 2.0f;
-    line(x - size, y - size, x + size, y + size);
-    line(x - size, y + size, x + size, y - size);
+
+    strokeWeight(16.0f);
+    noFill();
+    stroke(1.0f, 0.25f, 0.35f);
+    arc(x, y, size, size, -HALF_PI, TWO_PI * sampler->get_position_normalized() - HALF_PI);
 
     filter->set_frequency(map(mouseX, 0, width, 20.0f, 8000.0f));
     filter->set_resonance(map(mouseY, 0, height, 0.1f, 0.9f));
@@ -57,15 +62,15 @@ void keyReleased() {
     }
 }
 
-void audioEvent() {
-    float sample_buffer[audio_buffer_size];
-    for (int i = 0; i < audio_buffer_size; i++) {
+void audioEvent(const PAudio& audio) {
+    float sample_buffer[audio.buffer_size];
+    for (int i = 0; i < audio.buffer_size; i++) {
         float sample     = sampler->process();
         sample           = filter->process(sample);
         sample_buffer[i] = sample;
     }
-    if (audio_output_channels == 2) {
-        merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    if (audio.output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
     }
 }
 

@@ -5,11 +5,11 @@
 
 using namespace umfeld;
 
-Wavetable*        wavetable_oscillator;
-Wavetable*        lfo;
-ADSR*             adsr;
-Trigger*          trigger;
-bool              toggle = false;
+Wavetable* wavetable_oscillator;
+Wavetable* lfo;
+ADSR*      adsr;
+Trigger*   trigger;
+bool       toggle = false;
 
 void settings() {
     size(1024, 768);
@@ -27,18 +27,23 @@ void beat(const int event) {
 }
 
 void setup() {
-    adsr    = new ADSR(audio_sample_rate);
+    adsr    = new ADSR(get_audio_sample_rate());
     trigger = new Trigger();
     trigger->set_callback(beat);
 
-    lfo = new Wavetable(2048, audio_sample_rate);
+    lfo = new Wavetable(2048, get_audio_sample_rate());
     lfo->set_waveform(WAVEFORM_TRIANGLE);
     lfo->set_frequency(1.0f);
 
-    wavetable_oscillator = new Wavetable(1024, audio_sample_rate);
+    wavetable_oscillator = new Wavetable(1024,get_audio_sample_rate());
     wavetable_oscillator->set_waveform(WAVEFORM_SAWTOOTH_HARMONICS, 8);
     wavetable_oscillator->set_frequency(110.0f);
     wavetable_oscillator->set_amplitude(0.5f);
+
+    if (get_audio_output_channels() != 2) {
+        error("this example requires a stereo output");
+        exit(1);
+    }
 }
 
 void draw() {
@@ -57,9 +62,9 @@ void draw() {
     lfo->set_frequency(map(mouseY, 0, height, 0.1f, 10.0f));
 }
 
-void audioEvent() {
-    float sample_buffer[audio_buffer_size];
-    for (int i = 0; i < audio_buffer_size; i++) {
+void audioEvent(const PAudio& audio) {
+    float sample_buffer[audio.buffer_size];
+    for (int i = 0; i < audio.buffer_size; i++) {
         /* feed lfo to trigger */
         trigger->process(lfo->process());
         /* process sample */
@@ -67,7 +72,9 @@ void audioEvent() {
         sample           = adsr->process(sample);
         sample_buffer[i] = sample;
     }
-    merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    if (audio.output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
+    }
 }
 
 void shutdown() {

@@ -14,13 +14,13 @@ std::vector<std::pair<float, float>> spectrum;
 
 void settings() {
     size(1024, 768);
-    audio(0, 2, 48000);
+    audio();
 }
 
 void setup() {
-    fft_start(audio_buffer_size, 48000);
+    fft_start(get_audio_buffer_size(), get_audio_sample_rate());
 
-    wavetable_oscillator = new Wavetable(1024, 48000);
+    wavetable_oscillator = new Wavetable(1024, get_audio_sample_rate());
     wavetable_oscillator->set_waveform(WAVEFORM_SINE);
     wavetable_oscillator->set_frequency(220.0f);
     wavetable_oscillator->set_amplitude(0.7f);
@@ -46,13 +46,15 @@ void draw() {
     }
 }
 
-void audioEvent() {
-    float sample_buffer[audio_buffer_size];
-    for (int i = 0; i < audio_buffer_size; i++) {
+void audioEvent(const PAudio& audio) {
+    float sample_buffer[audio.buffer_size];
+    for (int i = 0; i < audio.buffer_size; i++) {
         sample_buffer[i] = wavetable_oscillator->process();
     }
     spectrum = fft_process(sample_buffer, 20.0f, 800.0f);
-    merge_interleaved_stereo(sample_buffer, sample_buffer, audio_output_buffer, audio_buffer_size);
+    if (audio.output_channels == 2) {
+        merge_interleaved_stereo(sample_buffer, sample_buffer, audio.output_buffer, audio.buffer_size);
+    }
 }
 
 void shutdown() {

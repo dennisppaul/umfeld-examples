@@ -1,6 +1,5 @@
 /*
- * this example demonstrates how to load a sample and apply a low pass filter
- * to it. it also shows how to resample a sample to a different sample rate.
+ * this example demonstrates how to configure an audio device.
  */
 
 #include "Umfeld.h"
@@ -14,29 +13,33 @@ LowPassFilter* filter;
 
 void settings() {
     size(1024, 768);
-    audio();
-    run_audio_in_thread = true;
+    /* use AudioUnitInfo to specifiy audio settings */
+    AudioUnitInfo info;
+    info.input_channels  = 0;
+    info.output_channels = 2;
+    info.threaded        = true;
+    audio(info);
+    /* select audio driver with `subsystem_audio = ...`. SDL is currently the default */
+    // subsystem_audio = umfeld_create_subsystem_audio_sdl();
+    subsystem_audio = umfeld_create_subsystem_audio_portaudio();
 }
 
 void setup() {
     sampler = loadSample("teilchen.wav");
-
-    const float sampler_sample_rate = sampler->get_sample_rate();
-    filter                          = new LowPassFilter(sampler_sample_rate);
-
     sampler->set_looping();
     sampler->play();
 
+    filter = new LowPassFilter(get_audio_sample_rate());
+
+    // 'get_audio_output_channels()' returns the number of output channels of the default audio device.
+    // note that 'audio()' requests a certain number of channels but the actual device might provide a different number.
     if (get_audio_output_channels() != 2) {
         error("this example requires a stereo output");
         exit(1);
     }
-
-    console_once("Main Thread ID    :", pthread_self());
 }
 
 void draw() {
-    console_once("Draw Thread ID    :", pthread_self());
     background(0.85f);
     noFill();
     stroke(1.0f, 0.25f, 0.35f);
@@ -50,8 +53,8 @@ void draw() {
     filter->set_resonance(map(mouseY, 0, height, 0.1f, 0.9f));
 }
 
+
 void audioEvent(const PAudio& audio) {
-    console_once("Audio Thread ID   :", pthread_self());
     float sample_buffer[audio.buffer_size];
     for (int i = 0; i < audio.buffer_size; i++) {
         float sample     = sampler->process();
