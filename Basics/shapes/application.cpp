@@ -6,16 +6,10 @@
 #include "Umfeld.h"
 #include "Geometry.h"
 
-// TODO WIP quite a lot of things are still broken or not implemented here
-// TODO: the following combinations are partly broken:
-//      - stroke_cap_mode : PROJECT + POINTED
-//      - stroke_join_mode: BEVEL + MITER
-// TODO: in OpenGL 2.0 stroke weight is limited and strokeJoin + strokeCap are not supported
-
 using namespace umfeld;
 
-const uint32_t light_blue = color(0.5f, 0.85f, 1.0f);
-const uint32_t soft_red   = color(1.0f, 0.25f, 0.35f);
+const color_32 light_blue = color(0.5, 0.85, 1.0);
+const color_32 soft_red   = color(1.0, 0.25, 0.35);
 
 int   stroke_join_mode = ROUND;
 int   stroke_cap_mode  = ROUND;
@@ -28,14 +22,14 @@ void settings() {
 void setup() {}
 
 void draw() {
-    background(0.85f);
+    background(0.85);
 
     fill(0);
     debug_text("FPS: " + nf(frameRate, 1), 10, 10);
     debug_text(nf(mouseX, 0) + ", " + nf(mouseY, 0), 10, 20);
 
     stroke(0.0f);
-    fill_color(light_blue);
+    fill_color_32(light_blue);
     strokeWeight(stroke_weight);
     pointSize(stroke_weight);
     strokeJoin(stroke_join_mode);
@@ -97,7 +91,7 @@ void draw() {
     endShape(CLOSE);
 
     stroke(0.0f);
-    fill_color(soft_red);
+    fill_color_32(soft_red);
 
     translate(280, 0);
     beginShape(TRIANGLES); // TODO disconnected triangles cause line artifacts
