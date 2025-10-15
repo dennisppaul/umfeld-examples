@@ -58,10 +58,10 @@ void draw() {
     }
 
     stroke(1.f); //@diff(color_range)
-    fill_color(rectColor);
+    fill_color_32(rectColor);
     rect(rectX, rectY, rectSize, rectSize);
     stroke(0.f); //@diff(color_range));
-    fill_color(circleColor);
+    fill_color_32(circleColor);
     ellipse(circleX, circleY, circleSize, circleSize);
 }
 

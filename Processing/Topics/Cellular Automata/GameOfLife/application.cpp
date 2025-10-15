@@ -91,7 +91,7 @@ void draw() {
     noStroke();
 
     // Draw alive cells
-    fill_color(alive);
+    fill_color_32(alive);
     beginShape(TRIANGLES);
     for (int x = 0; x < width / cellSize; x++) {
         for (int y = 0; y < height / cellSize; y++) {
@@ -112,7 +112,7 @@ void draw() {
     endShape();
 
     // Draw dead cells
-    fill_color(dead);
+    fill_color_32(dead);
     beginShape(TRIANGLES);
     for (int x = 0; x < width / cellSize; x++) {
         for (int y = 0; y < height / cellSize; y++) {
@@ -166,10 +166,10 @@ void draw() {
         // Check against cells in buffer
         if (cellsBuffer[xCellOver][yCellOver] == 1) { // Cell is alive
             cells[xCellOver][yCellOver] = 0;          // Kill
-            fill_color(dead);                         // Fill with kill color
+            fill_color_32(dead);                         // Fill with kill color
         } else {                                      // Cell is dead
             cells[xCellOver][yCellOver] = 1;          // Make alive
-            fill_color(alive);                        // Fill alive color
+            fill_color_32(alive);                        // Fill alive color
         }
     } else if (pause && !isMousePressed) { // And then save to buffer once mouse goes up
         // Save cells to buffer (so we opeate with one array keeping the other intact)

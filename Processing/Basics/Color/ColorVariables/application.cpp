@@ -25,21 +25,21 @@ void setup() {
 void draw() {
     pushMatrix();
     translate(80, 80);
-    fill_color(outside); //@diff(fill_color)
+    fill_color_32(outside); //@diff(fill_color)
     rect(0, 0, 200, 200);
-    fill_color(middle); //@diff(fill_color)
+    fill_color_32(middle); //@diff(fill_color)
     rect(40, 60, 120, 120);
-    fill_color(inside); //@diff(fill_color)
+    fill_color_32(inside); //@diff(fill_color)
     rect(60, 90, 80, 80);
     popMatrix();
 
     pushMatrix();
     translate(360, 80);
-    fill_color(inside); //@diff(fill_color)
+    fill_color_32(inside); //@diff(fill_color)
     rect(0, 0, 200, 200);
-    fill_color(outside); //@diff(fill_color)
+    fill_color_32(outside); //@diff(fill_color)
     rect(40, 60, 120, 120);
-    fill_color(middle); //@diff(fill_color)
+    fill_color_32(middle); //@diff(fill_color)
     rect(60, 90, 80, 80);
     popMatrix();
 }

@@ -9,7 +9,7 @@ using namespace umfeld;
 
 // TODO implement functions from https://processing.org/reference/
 //    - [x] PFont :: Grayscale bitmap font class used by Processing
-//    - [x] createFont() :: Dynamically converts a font to the format used by Processing
+//    - [ ] createFont() :: Dynamically converts a font to the format used by Processing
 //    - [x] loadFont() :: Loads a font into a variable of type PFont
 //    - [x] textFont() :: Sets the current font that will be drawn with the text() function
 //    - [x] text() :: Draws text to the screen
@@ -41,7 +41,7 @@ void draw() {
     noStroke();
     pushMatrix();
     translate(100, 100);
-    fill_color(light_blue);
+    fill_color_32(light_blue);
     textSize(map(mouseX, 0, width, 10, 88));
     textAlign(CENTER, BOTTOM);
     line(0, 120, width - 200, 120);
@@ -56,7 +56,7 @@ void draw() {
     line(0, 360, width - 200, 360);
     text("CENTER,TOP", 200, 360);
 
-    fill_color(soft_red);
+    fill_color_32(soft_red);
     translate(width / 2, 0);
     textAlign(RIGHT);
     text("ABCD", 200, 120);

@@ -43,7 +43,7 @@ void drawBand(uint32_t v, uint32_t w, uint32_t x, uint32_t y, uint32_t z, int yp
     std::vector<uint32_t> colorOrder = {v, w, x, y, z}; 
     for (int i = 0; i < width; i += barWidth * num) {
         for (int j = 0; j < num; j++) {
-            fill_color(colorOrder[j]); // fill vs fill_color ambiguous(humanely)
+            fill_color_32(colorOrder[j]); // fill vs fill_color ambiguous(humanely)
             rect(i + j * barWidth, ypos, barWidth, height / 2);
         }
     }

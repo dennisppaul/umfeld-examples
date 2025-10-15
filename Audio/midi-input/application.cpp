@@ -33,9 +33,9 @@ void draw() {
         if (pad_pressed[i]) {
             circle_size = 100;
             if (i >= PAD_COUNT / 2) {
-                fill_color(red_color);
+                fill_color_32(red_color);
             } else {
-                fill_color(blue_color);
+                fill_color_32(blue_color);
             }
         } else {
             circle_size = 50;

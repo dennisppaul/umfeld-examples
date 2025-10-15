@@ -88,7 +88,7 @@ public:
     void drawCube() {
         // Draw cube
         for (int i = 0; i < 6; i++) {
-            fill_color(quadBG[i]);
+            fill_color_32(quadBG[i]);
             beginShape(QUADS);
             for (int j = 0; j < 4; j++) {
                 vertex(vertices[j + 4 * i].x, vertices[j + 4 * i].y, vertices[j + 4 * i].z);

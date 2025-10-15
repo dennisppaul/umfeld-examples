@@ -75,11 +75,11 @@ void keyPressed() {
         if(key <= 'Z') {
             keyIndex = key-'A';
             letterHeight = maxHeight;
-            fill_color(colors[keyIndex]);
+            fill_color_32(colors[keyIndex]);
         } else {
             keyIndex = key-'a';
             letterHeight = minHeight;
-            fill_color(colors[keyIndex]);
+            fill_color_32(colors[keyIndex]);
         }
     } else {
         fill(0.0f);

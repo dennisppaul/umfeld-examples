@@ -49,17 +49,17 @@ void draw() {
     background(r,g,b,a);
 
     if (rectOver) {
-        fill_color(rectHighlight);
+        fill_color_32(rectHighlight);
     } else {
-        fill_color(rectColor);
+        fill_color_32(rectColor);
     }
     stroke(1.f); //@diff(color_range)
     rect(rectX, rectY, rectSize, rectSize);
 
     if (circleOver) {
-        fill_color(circleHighlight);
+        fill_color_32(circleHighlight);
     } else {
-        fill_color(circleColor);
+        fill_color_32(circleColor);
     }
     stroke(0.f); //@diff(color_range)
     ellipse(circleX, circleY, circleSize, circleSize);

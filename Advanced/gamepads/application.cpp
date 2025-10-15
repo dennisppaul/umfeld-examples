@@ -44,10 +44,10 @@ void draw() {
 
     background(0.85f);
 
-    fill_color(circle_red.color);
+    fill_color_32(circle_red.color);
     circle(circle_red.position.x, circle_red.position.y, circle_red.size);
 
-    fill_color(circle_blue.color);
+    fill_color_32(circle_blue.color);
     circle(circle_blue.position.x, circle_blue.position.y, circle_blue.size);
 }
 
