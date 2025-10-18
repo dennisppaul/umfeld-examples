@@ -7,6 +7,7 @@
 #include "PVector.h"
 
 using namespace umfeld;
+using namespace umfeld::subsystem;
 
 struct Circle {
     uint32_t color;
@@ -99,6 +100,6 @@ void gamepad_button(const int id, const int button, const bool down) {
 
 void keyPressed() {
     if (key == ' ') {
-        gamepad_connected();
+        gamepad_connected(true);
     }
 }

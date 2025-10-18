@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(drawing-in-mouse-pressed)                                               # set application name
+project(drawing-filled-arcs)                                                    # set application name
 set(UMFELD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../umfeld")                  # set path to umfeld library
 
 add_compile_definitions(UMFELD_PRINT_CONSOLE=0) # disable console output

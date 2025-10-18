@@ -11,10 +11,10 @@ Capture* capture_iphone;
 class MyCaptureListener final : public CaptureListener {
     void captureEvent(Capture* capture) override {
         if (capture == capture_facetime) {
-            console("capture_facetime");
+            // console("capture_facetime");
         }
         if (capture == capture_iphone) {
-            console("capture_iphone");
+            // console("capture_iphone");
         }
         // TODO @WIP updating texture in non-OpenGL thread does not work
     }
@@ -79,11 +79,4 @@ void draw() {
               mouseX, mouseY,
               capture_iphone->width / 4, capture_iphone->height / 4);
     }
-}
-
-void keyPressed() {
-    if (key == 'q') {
-        exit();
-    }
-    println((char) key, " pressed");
 }

@@ -4,6 +4,12 @@
 
 using namespace umfeld;
 
+void arguments(const std::vector<std::string>& args) {
+    for (const std::string& s: args) {
+        console("  arg: ", s);
+    }
+}
+
 void settings() {
     size(1024, 768);
 }
