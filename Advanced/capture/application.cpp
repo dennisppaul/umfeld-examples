@@ -52,7 +52,8 @@ void setup() {
                            "1280x720",
                            "30",
                            "nv12");
-    capture_facetime->set_listener(&capture_listener);
+    // TODO check why setting listener blocks keyboard input (on macOS)
+    // capture_facetime->set_listener(&capture_listener);
     capture_facetime->start();
 
     capture_iphone = new Capture();
@@ -60,7 +61,8 @@ void setup() {
                          "1280x720",
                          "30",
                          "nv12");
-    capture_iphone->set_listener(&capture_listener);
+    // TODO check why setting listener blocks keyboard input (on macOS)
+    // capture_iphone->set_listener(&capture_listener);
     capture_iphone->start();
 }
 
