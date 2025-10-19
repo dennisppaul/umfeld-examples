@@ -1,4 +1,8 @@
-// TODO merge with camera example
+// TODO this is experimental and just barely works
+
+/*
+ * this example demonstrates how to access external cameras. WIP it assumes a face-time camera and an iPhone connected via WiFi ( or USB ).
+ */
 
 #include "Umfeld.h"
 #include "Capture.h"
