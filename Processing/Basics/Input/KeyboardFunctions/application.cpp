@@ -60,7 +60,7 @@ void draw() {
         } else {
             y_pos = y + minHeight;
             rect( x, y_pos, letterWidth, letterHeight );
-            fill((float)numChars/2.0f / (float)numChars);
+            fill_f((float)numChars/2.0f / (float)numChars);
             rect( x, y_pos-minHeight, letterWidth, letterHeight );
         }
         newletter = false;
@@ -82,7 +82,7 @@ void keyPressed() {
             fill_color_32(colors[keyIndex]);
         }
     } else {
-        fill(0.0f);
+        fill_f(0.0f);
         letterHeight = 10;
     }
 

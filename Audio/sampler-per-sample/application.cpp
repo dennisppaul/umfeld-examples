@@ -13,7 +13,7 @@ Sampler* sampler;
 void settings() {
     size(1024, 768);
     audio();
-    enable_audio_per_sample_processing = true;
+    audio_sample_acquisition_mode = AUDIO_PER_SAMPLE_NO_INPUT;
 }
 
 void setup() {

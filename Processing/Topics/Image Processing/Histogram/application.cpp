@@ -38,7 +38,7 @@ void draw() {
     // C++ version of finding the largest value in the histogram
     int histMax = *std::max_element(hist, hist + 256);
 
-    stroke(1.0f);  // 완전 흰색 (명확히 1.0f로 표기)
+    stroke_f(1.0f);  // 완전 흰색 (명확히 1.0f로 표기)
     // Draw half of the histogram (skip every second value)
     for (int i = 0; i < img->width; i += 2) {
         // Map i (from 0..img.width) to a location in the histogram (0..255)

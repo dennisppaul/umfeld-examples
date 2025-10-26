@@ -6,11 +6,13 @@ PImage* umfeld_image;
 
 void settings() {
     // size(1024, 768);
-    size(640, 480);
+    size(640, 480); // needed for R36S to enable vsync
     antialiasing         = false;
     depth_buffer_depth   = 16;
     stencil_buffer_depth = 0;
     double_buffered      = true;
+    // fullscreen           = true; // needed for R36S to enable vsync
+    // vsync                = true; // needed for R36S platforms to enable vsync
 }
 
 void setup() {
