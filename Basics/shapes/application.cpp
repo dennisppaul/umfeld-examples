@@ -8,8 +8,8 @@
 
 using namespace umfeld;
 
-const color_32 light_blue = color(0.5, 0.85, 1.0);
-const color_32 soft_red   = color(1.0, 0.25, 0.35);
+const color_t light_blue = color(0.5, 0.85, 1.0);
+const color_t soft_red   = color(1.0, 0.25, 0.35);
 
 int   stroke_join_mode = ROUND;
 int   stroke_cap_mode  = ROUND;
@@ -29,7 +29,7 @@ void draw() {
     debug_text(nf(mouseX, 0) + ", " + nf(mouseY, 0), 10, 20);
 
     stroke(0.0f);
-    fill_color_32(light_blue);
+    fill(light_blue);
     strokeWeight(stroke_weight);
     pointSize(stroke_weight);
     strokeJoin(stroke_join_mode);
@@ -91,7 +91,7 @@ void draw() {
     endShape(CLOSE);
 
     stroke(0.0f);
-    fill_color_32(soft_red);
+    fill(soft_red);
 
     translate(280, 0);
     beginShape(TRIANGLES); // TODO disconnected triangles cause line artifacts
