@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     midi.print_available_ports();
     midi.open_input_port("Arturia BeatStep");
     strokeWeight(6);

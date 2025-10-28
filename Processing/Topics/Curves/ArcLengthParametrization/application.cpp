@@ -38,6 +38,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     set_frame_rate(60); //@diff(frameRate)
     hint(ENABLE_SMOOTH_LINES); //@diff(available hints)
     textFont(loadFont("SourceCodePro-Regular.ttf", 16));

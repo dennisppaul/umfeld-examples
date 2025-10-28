@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     for (int i = 0; i < cubies.size(); i++) {
         // Cubies are randomly sized
         float cubieSize = random(5, 15);

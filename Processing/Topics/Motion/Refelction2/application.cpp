@@ -22,6 +22,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // An orb object that will fall and bounce around
     orb = Orb(50, 50, 3);
 

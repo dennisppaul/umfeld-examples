@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     coswave = new float[(int)width];
     for (int i = 0; i < width; i++) {
         float amount = map(i, 0, width, 0, PI);

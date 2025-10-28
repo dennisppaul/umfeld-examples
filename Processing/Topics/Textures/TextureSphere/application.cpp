@@ -34,6 +34,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     background(0.f);
     noStroke();
     img = loadImage("world32k.jpg");

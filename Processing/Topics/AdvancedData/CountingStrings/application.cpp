@@ -29,6 +29,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Load file and chop it up
     std::vector<std::string> lines = loadStrings("dracula.txt");
     std::string allText = join(lines, " ");

@@ -14,6 +14,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img = loadImage("https://github.com/dennisppaul/umfeld-examples/blob/main/Advanced/texture-filtering/data/umfeld-logotype-64.png?raw=true"); //@diff(pointer)
     noLoop();
 }

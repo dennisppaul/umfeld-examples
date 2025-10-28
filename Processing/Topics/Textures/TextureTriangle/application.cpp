@@ -15,6 +15,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img = loadImage("berlin-1.jpg");
     noStroke();
 }

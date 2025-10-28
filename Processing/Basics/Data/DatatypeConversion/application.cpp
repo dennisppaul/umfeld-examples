@@ -15,6 +15,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     background(0.f); //@diff(color_range)
     noStroke();
     PFont* font = loadFont("SourceCodePro-Regular.ttf", 24); //@diff(load_font)

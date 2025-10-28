@@ -28,6 +28,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     rectColor       = color(0.f); //@diff(color_range)
     rectHighlight   = color(.2f); //@diff(color_range)
     circleColor     = color(1.f); //@diff(color_range)

@@ -52,6 +52,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     fill(1.f, .8f); //@diff(color_range)
     noStroke();
     r1 = MRect(1, 134.0, 0.532, 0.1 * height, 10.0, 60.0);

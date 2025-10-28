@@ -25,6 +25,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     sampler = loadSample("teilchen.wav");
     sampler->set_looping();
     sampler->play();

@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     hint(ENABLE_DEPTH_TEST); //@diff(available_hints)
     rSize = width / 6;
     noStroke();

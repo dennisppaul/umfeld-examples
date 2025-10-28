@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     hint(ENABLE_SMOOTH_LINES);
     mesh_shape.set_shape(TRIANGLES);
     for (int i = 0; i < 2048; ++i) {

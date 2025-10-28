@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     bx = width / 2.0;
     by = height / 2.0;
     rectMode(RADIUS);

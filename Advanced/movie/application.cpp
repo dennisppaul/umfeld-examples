@@ -25,6 +25,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     movie = new Movie("video.mp4");
     movie->play();
     movie->loop();

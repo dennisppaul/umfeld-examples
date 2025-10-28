@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     std::vector<int> ruleset = {0, 1, 0, 1, 1, 0, 1, 0}; // An initial rule system //@diff(std::vector)
     ca = CA(ruleset); // Initialize CA
     background(0.f); //@diff(color_range)

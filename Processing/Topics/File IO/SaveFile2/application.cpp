@@ -17,6 +17,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Create a new file in the sketch directory
     output.open("positions.txt");
     set_frame_rate(12); //@diff(frameRate)

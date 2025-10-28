@@ -36,6 +36,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     //center shape in window
     centerX = width / 2;
     centerY = height / 2;

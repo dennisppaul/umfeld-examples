@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     for (int i = 0; i < numBalls; i++) {
         balls[i] = Ball(random(width), random(height), random(30, 70), i, &balls);
     }

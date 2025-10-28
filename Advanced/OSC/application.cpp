@@ -43,6 +43,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     mOSC.callback(&osc_listener);
     background(0.0f);
 }

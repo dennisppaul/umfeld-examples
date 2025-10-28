@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     background(0.8f); //@diff(color_range)
     x = width / 2;
     y = height / 2;

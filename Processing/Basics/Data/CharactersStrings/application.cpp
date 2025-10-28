@@ -28,6 +28,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     PFont* font = nullptr;
     // Load the font from the file
     font = loadFont("SourceCodePro-Regular.ttf", 36); // @diff(font_load)

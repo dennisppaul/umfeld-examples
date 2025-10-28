@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img        = loadImage("moonwalk.jpg");
     smallPoint = 4;
     largePoint = 40;

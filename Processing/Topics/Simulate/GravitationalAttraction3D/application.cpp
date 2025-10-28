@@ -33,6 +33,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
 
     // Some random planets
     for (int i = 0; i < planets.size(); i++) {

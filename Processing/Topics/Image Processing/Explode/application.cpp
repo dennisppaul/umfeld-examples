@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img     = loadImage("eames.jpg"); // Load the image
     columns = img->width / cellsize;  // Calculate # of columns
     rows    = img->height / cellsize; // Calculate # of rows

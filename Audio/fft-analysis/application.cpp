@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     fft_start(get_audio_buffer_size(), get_audio_sample_rate());
 
     wavetable_oscillator = new Wavetable(1024, get_audio_sample_rate());

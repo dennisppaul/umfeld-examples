@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
   noStroke();
   background(0.0f); //@diff(color_range)
 }

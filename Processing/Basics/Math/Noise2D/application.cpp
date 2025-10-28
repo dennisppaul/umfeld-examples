@@ -16,6 +16,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noFill();
     stroke(1.0f, 0.25f, 0.35f); //@diff(color_range)
 }

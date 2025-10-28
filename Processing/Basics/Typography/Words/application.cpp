@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Create the font
     //   printArray(PFont.list()); //unimplemented
     // f = createFont("SpaceMono-Regular.ttf", 18); //unimplemented

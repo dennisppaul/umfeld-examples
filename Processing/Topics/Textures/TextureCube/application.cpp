@@ -22,6 +22,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     tex = loadImage("berlin-1.jpg");
     // textureMode(NORMAL); //unimplemented
     fill(1.f); //@diff(color_range)

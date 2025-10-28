@@ -22,6 +22,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     location = PVector(100, 100);
     velocity = PVector(1.5, 2.1);
     gravity  = PVector(0, 0.2);

@@ -12,6 +12,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     rectMode(CENTER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_Z_ORDER);
     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);

@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     set_frame_rate(30);
 }
 

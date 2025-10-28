@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     b1 = color(1.f); //@diff(color_range)
     b2 = color(0.f); //@diff(color_range)
     c1 = color(0.8f, 0.4f, 0.f); //@diff(color_range)

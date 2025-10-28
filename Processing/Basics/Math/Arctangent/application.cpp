@@ -50,6 +50,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
     e1 = Eye(250,16,120);
     e2 = Eye(164, 185, 80);

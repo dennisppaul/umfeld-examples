@@ -22,6 +22,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Initialize all values
     r         = height * 0.45;
     theta     = 0;

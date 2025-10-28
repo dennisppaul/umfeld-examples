@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
 
     hs1 = HScrollbar(0, height / 2 - 8, width, 16, 16, &firstMousePress);

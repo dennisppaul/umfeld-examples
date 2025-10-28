@@ -23,6 +23,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
     //@diff(color_range, color_tyle)
     c1 = color(165.f / 255.f, 167.f / 255.f, 20.f / 255.f);

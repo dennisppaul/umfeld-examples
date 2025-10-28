@@ -15,6 +15,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     diameter = height - 10;
     noStroke();
     fill(1.f, .8f, 0.f); //@diff(color_range)

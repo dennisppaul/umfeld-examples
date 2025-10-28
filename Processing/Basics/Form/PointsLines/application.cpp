@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
 
     size(640, 360);
     hint(DISABLE_SMOOTH_LINES); //@diff(available_hints)

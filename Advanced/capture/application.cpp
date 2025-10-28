@@ -31,6 +31,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     const std::vector<std::string> devices = Capture::list();
     if (!devices.empty()) {
         uint32_t i = 0;

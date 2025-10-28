@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Set the background to black and turn off the fill color
     background(0.f); //@diff(color_range)
     noFill();

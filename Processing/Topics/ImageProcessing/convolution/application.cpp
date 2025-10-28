@@ -79,6 +79,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img = loadImage("moon-wide.jpg");
     noLoop();
     textFont(loadFont("SourceCodePro-Regular.ttf", 12));

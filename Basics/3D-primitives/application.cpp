@@ -13,6 +13,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noFill();
     g->set_render_mode(RENDER_MODE_IMMEDIATELY);
     g->set_render_mode(RENDER_MODE_SORTED_BY_SUBMISSION_ORDER);

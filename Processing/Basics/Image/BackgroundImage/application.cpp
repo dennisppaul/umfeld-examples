@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // The background image must be the same size as the parameters
     // into the size() method. In this program, the size of the image
     // is 640 x 360 pixels.

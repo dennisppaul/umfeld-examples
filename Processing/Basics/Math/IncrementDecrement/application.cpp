@@ -17,6 +17,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     //   colorMode(RGB, width);
     b         = 0;
     c         = width;

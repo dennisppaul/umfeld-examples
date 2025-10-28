@@ -17,6 +17,7 @@ void settings() {
     size(640, 360);}
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
 
     // Create the font
     textFont(loadFont("SourceCodePro-Regular.ttf", 36));

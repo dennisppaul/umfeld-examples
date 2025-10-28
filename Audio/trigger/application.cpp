@@ -27,6 +27,7 @@ void beat(const int event) {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     adsr    = new ADSR(get_audio_sample_rate());
     trigger = new Trigger();
     trigger->set_callback(beat);

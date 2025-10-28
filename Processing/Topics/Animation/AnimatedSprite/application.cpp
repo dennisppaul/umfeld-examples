@@ -25,6 +25,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     background(1.f, .8f, 0.f); //@diff(color_range)
     set_frame_rate(24); //@diff(frameRate)
     animation1 = Animation("PT_Shifty_", 38);

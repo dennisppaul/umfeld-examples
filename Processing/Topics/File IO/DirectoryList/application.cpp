@@ -30,6 +30,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
 
     // Using just the path of this sketch to demonstrate,
     // but you can list any directory you like.

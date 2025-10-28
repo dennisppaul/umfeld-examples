@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     img = loadImage("berlin-1.jpg");
     float angle = 270.0 / tubeRes;
     for (int i = 0; i < tubeRes; i++) {

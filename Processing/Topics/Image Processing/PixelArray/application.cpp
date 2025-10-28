@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noFill();
     stroke(1.f); //@diff(color_range)
     set_frame_rate(30); //@diff(frameRate)

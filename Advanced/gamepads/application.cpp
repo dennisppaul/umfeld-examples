@@ -28,6 +28,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     circle_red.color = color(1.0f, 0.25f, 0.35f);
     circle_red.position.set(width / 2, height / 2 - 10);
     circle_red.size = 50;

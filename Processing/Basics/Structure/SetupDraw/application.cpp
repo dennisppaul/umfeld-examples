@@ -19,6 +19,7 @@ void settings() {
 // The statements in the setup() block run once
 // when the program begins
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     stroke(1.f); // Set line drawing color to white //@diff(color_range)
 }
 

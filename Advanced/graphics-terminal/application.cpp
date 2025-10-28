@@ -14,6 +14,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     umfeld_image = loadImage("umfeld-logotype-16.png");
     // NOTE renderer specific options can be set like this:
     //      PGraphicsTerminal* gt = (PGraphicsTerminal*)g;

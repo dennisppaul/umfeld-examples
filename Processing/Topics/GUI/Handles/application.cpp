@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     int num   = height / 15;
     handles   = std::vector<Handle>(num); //@diff(std::vector)
     int hsize = 10;

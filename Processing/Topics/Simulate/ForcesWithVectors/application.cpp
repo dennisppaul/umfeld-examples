@@ -25,6 +25,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     reset();
     // Create liquid object
     liquid = Liquid(0, height / 2, width, height / 2, 0.1);

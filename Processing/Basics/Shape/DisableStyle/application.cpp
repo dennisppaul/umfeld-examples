@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // The file "bot1.svg" must be in the data folder
     // of the current sketch to load successfully
     // bot = loadShape("bot1.svg"); // unimplemented

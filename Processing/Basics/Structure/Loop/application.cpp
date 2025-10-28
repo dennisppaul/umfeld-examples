@@ -19,6 +19,7 @@ void settings() {
 // The statements in the setup() function
 // run once when the program begins
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     stroke(1.f);    // Set stroke color to white //@diff(color_range)
     noLoop();
 }

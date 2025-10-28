@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     std::string vertexCode   = loadString("blur.vert");
     std::string fragmentCode = loadString("blur.glsl");
     blur = loadShader(vertexCode, fragmentCode);

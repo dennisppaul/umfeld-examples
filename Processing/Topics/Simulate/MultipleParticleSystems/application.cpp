@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     textFont(loadFont("SourceCodePro-Regular.ttf", 15));
     systems = std::vector<ParticleSystem>();
 }

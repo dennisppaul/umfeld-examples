@@ -43,6 +43,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     background(.8f); //@diff(color_range)
     noLoop();
     // Run the constructor without parameters

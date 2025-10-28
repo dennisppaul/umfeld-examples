@@ -17,6 +17,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     set_frame_rate(30); //@diff(frameRate)
     img = loadImage("moon-wide.jpg");
     // img->loadPixels(g); //note: umfeld:: image pixels are already loaded

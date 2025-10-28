@@ -34,6 +34,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
     background((float)numChars/2.0f / (float)numChars); // Convert background like original
     // Set a hue value for each key - mimic Processing's colorMode(HSB, numChars)

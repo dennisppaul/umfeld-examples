@@ -18,6 +18,7 @@ size(640, 360); // Size should be the first statement
 // The statements in the setup() function
 // execute once when the program begins
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     stroke(1.f);    // Set line drawing color to white //@diff(color_range)
     noLoop();
     y = height * 0.5;

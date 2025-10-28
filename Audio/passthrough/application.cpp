@@ -15,6 +15,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     if (get_audio_output_channels() != 2) {
         println("this example requires a stereo output");
         exit();

@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     set_frame_rate(1); // Animate slowly //@diff(frameRate)
     k.init(); // Initialize after size is set
 }

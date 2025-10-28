@@ -14,6 +14,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
     fill(.8f); //@diff(color_range)
     sphereDetail(60);

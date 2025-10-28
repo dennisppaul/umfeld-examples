@@ -28,6 +28,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Create a circle using vectors pointing from center
     for (int angle = 0; angle < 360; angle += 9) {
         // Note we are not starting from 0 in order to match the

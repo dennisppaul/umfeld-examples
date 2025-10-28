@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Create single buffer for screen capture (simplified approach like BlurFilter)
     buffer1 = createGraphics(400, 400);
     

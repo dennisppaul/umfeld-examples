@@ -34,6 +34,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     fill(.5f); //@diff(color_range)
     base1 = PVector(0, height - 150);
     base2 = PVector(width, height);

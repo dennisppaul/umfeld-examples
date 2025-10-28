@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     hint(DISABLE_SMOOTH_LINES); //@diff(available_hints)
     xvals.resize(width);        //@diff(std::vector)
     yvals.resize(width);        //@diff(std::vector)

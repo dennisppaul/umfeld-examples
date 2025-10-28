@@ -21,6 +21,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Add an initial set of boids into the system
     for (int i = 0; i < 150; i++) {
         flock.addBoid(Boid(width / 2, height / 2));

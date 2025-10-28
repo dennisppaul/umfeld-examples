@@ -26,6 +26,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     frameRate = 30.0f; //@diff(frameRate)
     // colorMode(RGB, 255, 255, 255, 100);
     w = width + 16;

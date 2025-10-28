@@ -18,6 +18,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     for (int i = 0; i < num; i++) {
         ax[i] = width / 2;
         ay[i] = height / 2;

@@ -30,6 +30,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     console("=== SETUP START ===");
     
     destImage = loadImage("leaves.jpg");
@@ -277,6 +278,7 @@ environment: OpenGL 3.3 Core, NVIDIA GeForce RTX 4080, Linux x11, gcc15.1.1
     //  }
 
     //  void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     //      // Check OpenGL texture unit limits
     //      GLint max_texture_units;
     //      glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &max_texture_units);

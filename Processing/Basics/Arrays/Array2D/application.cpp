@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     maxDistance = dist(width / 2.f, height / 2.f, width, height);
     distances   = std::vector<std::vector<float>>(width, std::vector<float>(height)); //@diff(std::vector)
     for (int y = 0; y < height; y++) {

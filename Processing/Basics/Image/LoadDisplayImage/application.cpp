@@ -16,6 +16,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // The image file must be in the data folder of the current sketch
     // to load successfully
     img = loadImage("moonwalk.jpg"); // Load the image into the program

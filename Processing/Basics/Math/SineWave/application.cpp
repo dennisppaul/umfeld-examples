@@ -26,6 +26,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     w = width+16;
     dx = (TWO_PI / period) * xspacing;
     yvalues = std::vector<float>(w/xspacing); //@diff(std::vector)

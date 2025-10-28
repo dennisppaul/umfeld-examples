@@ -14,6 +14,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     midi.print_available_ports();
     midi.open_output_port("IAC Driver Bus 1");
     background(0.0f);

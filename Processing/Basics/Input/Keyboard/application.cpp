@@ -17,6 +17,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     noStroke();
     background(0.f); //@diff(color_range)
     rectWidth = width / 4;

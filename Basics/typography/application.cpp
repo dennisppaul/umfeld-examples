@@ -31,6 +31,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
 //    font = loadFont("RobotoMono-Regular.ttf", 44);
     font = loadFont("https://www.jacobremin.com/transport/RobotoMono-Regular.ttf", 48);
     textFont(font);

@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     PImage* img = loadImage("texture.png");
     ps = ParticleSystem(0, PVector(width / 2, height - 60), img);
 }

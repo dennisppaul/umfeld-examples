@@ -70,6 +70,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     arm   = SpinArm(width / 2, height / 2, 0.01);
     spots = SpinSpots(width / 2, height / 2, -0.02, 90.0);
 }

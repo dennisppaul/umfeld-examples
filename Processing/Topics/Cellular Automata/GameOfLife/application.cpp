@@ -47,6 +47,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Instantiate arrays
     int cols = width / cellSize;
     int rows = height / cellSize;

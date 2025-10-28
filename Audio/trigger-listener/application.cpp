@@ -32,6 +32,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     adsr    = new ADSR(get_audio_sample_rate());
     trigger = new Trigger();
     trigger->add_listener(&trigger_listener);

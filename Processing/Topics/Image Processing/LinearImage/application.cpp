@@ -20,6 +20,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     stroke(1.f); //@diff(color_range)
     img = loadImage("sea.jpg");
     img->loadPixels(g);

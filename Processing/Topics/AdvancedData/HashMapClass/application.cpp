@@ -27,6 +27,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     // Create the unordered_map
     words = std::unordered_map<std::string, Word>();
 

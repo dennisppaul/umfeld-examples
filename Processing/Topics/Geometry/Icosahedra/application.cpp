@@ -19,6 +19,7 @@ void settings() {
 }
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     hint(ENABLE_DEPTH_TEST); //@diff(avalable_hints)
     ico1 = Icosahedron(75);
     ico2 = Icosahedron(75);

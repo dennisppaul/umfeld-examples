@@ -16,6 +16,7 @@ void settings() {
 PenroseLSystem ds;
 
 void setup() {
+    colorMode(RGB, 1.0, 1.0, 1.0, 1.0);
     ds.simulate(4);
 }
 
